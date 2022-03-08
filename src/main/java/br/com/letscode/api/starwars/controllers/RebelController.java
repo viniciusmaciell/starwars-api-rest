@@ -37,9 +37,9 @@ public class RebelController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> setCurrentLocation(@RequestParam("id") Long id,
+    public ResponseEntity<Object> setCurrentLocation(@PathVariable("id") Long id,
                                                       @RequestBody CurrentLocationDto currentLocationDto) {
-
+        System.out.println("controller setCurrentLocation");
         return ResponseEntity.status(HttpStatus.OK).body(service.setCurrentLocation(id, currentLocationDto));
 
     }
