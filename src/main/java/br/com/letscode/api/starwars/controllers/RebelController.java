@@ -1,5 +1,6 @@
 package br.com.letscode.api.starwars.controllers;
 
+import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
 import br.com.letscode.api.starwars.models.RebelModel;
 import br.com.letscode.api.starwars.services.RebelService;
 import org.springframework.http.HttpStatus;
@@ -35,4 +36,11 @@ public class RebelController {
 
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> setCurrentLocation(@RequestParam("id") Long id,
+                                                      @RequestBody CurrentLocationDto currentLocationDto) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(service.setCurrentLocation(id, currentLocationDto));
+
+    }
 }
