@@ -13,7 +13,8 @@ import java.util.UUID;
 @Setter
 public class Rebel {
 
-    private UUID id;
+//    private UUID id;
+    private Long id;
     private String name;
     private Integer age;
     @JsonProperty("gender")
