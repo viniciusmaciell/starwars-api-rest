@@ -29,8 +29,9 @@ public class RebelRepository {
     }
 
     public RebelModel cadastrar(RebelModel rebel){
+        System.out.println("repository cadastrar");
+        rebel.setId((long) (rebels.size() + 1));
         rebels.add(rebel);
-
         System.out.println(rebels.size());
         return rebel;
     }
@@ -40,9 +41,13 @@ public class RebelRepository {
     }
 
     public RebelModel findById(Long id){
-        return rebels.stream()
+        System.out.println("repository findById");
+        System.out.println("id: " + id);
+        RebelModel returnedRebel = rebels.stream()
                 .filter(rebel -> rebel.getId().equals(id))
                 .findFirst().get();
+        System.out.println(returnedRebel);
+        return returnedRebel;
     }
 }
 
