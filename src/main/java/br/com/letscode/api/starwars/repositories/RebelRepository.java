@@ -14,18 +14,18 @@ public class RebelRepository {
 
     private static List<Rebel> rebels = new ArrayList<>();
 
-    static {
-
-        rebels.addAll(Arrays.asList(new Rebel("Chuew",
-                45,
-                GenderEnum.MALE,
-                new Location(-50, 45, "bEt")
-        ), new Rebel("Chue2",
-                45,
-                GenderEnum.MALE,
-                new Location(-50, 45, "bEt")
-        )));
-    }
+//    static {
+//
+//        rebels.addAll(Arrays.asList(new Rebel("Chuew",
+//                45,
+//                GenderEnum.MALE,
+//                new Location(-50, 45, "bEt")
+//        ), new Rebel("Chue2",
+//                45,
+//                GenderEnum.MALE,
+//                new Location(-50, 45, "bEt")
+//        )));
+//    }
 
     public Rebel cadastrar(Rebel rebel){
         System.out.println("repository cadastrar");
@@ -47,6 +47,19 @@ public class RebelRepository {
                 .findFirst().get();
         System.out.println(returnedRebel);
         return returnedRebel;
+    }
+
+    public Rebel updateRebelLocation(Long id, Location location) {
+        Rebel rebelToReturn = new Rebel();
+        for (Rebel rebel : rebels){
+            if (rebel.getId().equals(id)){
+                rebel.setLocation(location);
+                rebelToReturn = rebel;
+                break;
+            }
+        }
+
+        return rebelToReturn;
     }
 }
 
