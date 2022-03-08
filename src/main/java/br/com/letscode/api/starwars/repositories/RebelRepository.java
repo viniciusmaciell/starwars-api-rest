@@ -1,5 +1,6 @@
 package br.com.letscode.api.starwars.repositories;
 
+import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
 import br.com.letscode.api.starwars.enums.GenderEnum;
 import br.com.letscode.api.starwars.models.LocationModel;
 import br.com.letscode.api.starwars.models.RebelModel;
@@ -38,5 +39,10 @@ public class RebelRepository {
         return rebels;
     }
 
+    public RebelModel findById(Long id){
+        return rebels.stream()
+                .filter(rebel -> rebel.getId().equals(id))
+                .findFirst().get();
+    }
 }
 
