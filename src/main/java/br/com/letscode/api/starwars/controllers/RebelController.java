@@ -1,7 +1,8 @@
 package br.com.letscode.api.starwars.controllers;
 
 import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
-import br.com.letscode.api.starwars.models.RebelModel;
+import br.com.letscode.api.starwars.dtos.RebelDto;
+import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.services.RebelService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,15 @@ public class RebelController {
         this.service = service;
     }
 
+    @PostMapping
+    public ResponseEntity<Object> saveRebel(@RequestBody RebelDto rebel) {
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(rebel));
+
+    }
+
     @GetMapping("/list")
-    public List<RebelModel> getAll() {
+    public List<Rebel> getAll() {
         return service.getAll();
     }
 
@@ -29,12 +37,7 @@ public class RebelController {
         return ResponseEntity.status(HttpStatus.OK).body("Ola");
     }
 
-    @PostMapping
-    public ResponseEntity<Object> save(@RequestBody RebelModel rebel) {
-        service.cadastrar(rebel);
-        return ResponseEntity.status(HttpStatus.OK).body("cadastrado");
 
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> setCurrentLocation(@PathVariable("id") Long id,
