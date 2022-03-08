@@ -2,8 +2,8 @@ package br.com.letscode.api.starwars.services;
 
 import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
 import br.com.letscode.api.starwars.dtos.RebelReturnDto;
-import br.com.letscode.api.starwars.models.LocationModel;
-import br.com.letscode.api.starwars.models.RebelModel;
+import br.com.letscode.api.starwars.models.Location;
+import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.repositories.RebelRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +18,12 @@ public class RebelService {
         this.repository = repository;
     }
 
-    public List<RebelModel> getAll() {
+    public List<Rebel> getAll() {
         return repository.getAll();
 
     }
 
-    public RebelModel cadastrar(RebelModel rebel) {
+    public Rebel cadastrar(Rebel rebel) {
         repository.cadastrar(rebel);
         return rebel;
     }
@@ -32,10 +32,10 @@ public class RebelService {
         System.out.println("service setCurrentLocation");
 
         RebelReturnDto returnedRebelDto = new RebelReturnDto();
-        LocationModel location = new LocationModel(currentLocationDto.getLatitude(),
+        Location location = new Location(currentLocationDto.getLatitude(),
                 currentLocationDto.getLongitude(), currentLocationDto.getBaseName());
 
-        RebelModel rebel = repository.updateRebelLocation(id, location);
+        Rebel rebel = repository.updateRebelLocation(id, location);
 
         returnedRebelDto.setId(rebel.getId());
         returnedRebelDto.setName(rebel.getName());

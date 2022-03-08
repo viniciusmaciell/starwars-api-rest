@@ -1,9 +1,8 @@
 package br.com.letscode.api.starwars.repositories;
 
-import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
 import br.com.letscode.api.starwars.enums.GenderEnum;
-import br.com.letscode.api.starwars.models.LocationModel;
-import br.com.letscode.api.starwars.models.RebelModel;
+import br.com.letscode.api.starwars.models.Location;
+import br.com.letscode.api.starwars.models.Rebel;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -13,22 +12,22 @@ import java.util.List;
 @Repository
 public class RebelRepository {
 
-    private static List<RebelModel> rebels = new ArrayList<>();
+    private static List<Rebel> rebels = new ArrayList<>();
 
     static {
 
-        rebels.addAll(Arrays.asList(new RebelModel("Chuew",
+        rebels.addAll(Arrays.asList(new Rebel("Chuew",
                 45,
                 GenderEnum.MALE,
-                new LocationModel(-50, 45, "bEt")
-        ), new RebelModel("Chue2",
+                new Location(-50, 45, "bEt")
+        ), new Rebel("Chue2",
                 45,
                 GenderEnum.MALE,
-                new LocationModel(-50, 45, "bEt")
+                new Location(-50, 45, "bEt")
         )));
     }
 
-    public RebelModel cadastrar(RebelModel rebel){
+    public Rebel cadastrar(Rebel rebel){
         System.out.println("repository cadastrar");
         rebel.setId((long) (rebels.size() + 1));
         rebels.add(rebel);
@@ -36,14 +35,14 @@ public class RebelRepository {
         return rebel;
     }
 
-    public List<RebelModel> getAll() {
+    public List<Rebel> getAll() {
         return rebels;
     }
 
-    public RebelModel findById(Long id){
+    public Rebel findById(Long id){
         System.out.println("repository findById");
         System.out.println("id: " + id);
-        RebelModel returnedRebel = rebels.stream()
+        Rebel returnedRebel = rebels.stream()
                 .filter(rebel -> rebel.getId().equals(id))
                 .findFirst().get();
         System.out.println(returnedRebel);
