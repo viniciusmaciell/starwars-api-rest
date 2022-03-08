@@ -30,13 +30,14 @@ public class RebelService {
     }
 
     public RebelDto setCurrentLocation(Long id, CurrentLocationDto currentLocationDto) {
-        System.out.println("");
+        System.out.println("service setCurrentLocation");
         RebelModel rebel = repository.findById(id);
         RebelDto rebelDto = new RebelDto();
         LocationModel location = new LocationModel(currentLocationDto.getLatitude(),
                 currentLocationDto.getLongitude(), currentLocationDto.getBaseName());
         rebel.setLocation(location);
         repository.cadastrar(rebel);
+        System.out.println("service - rebel: " + rebel);
         BeanUtils.copyProperties(rebel, rebelDto);
         return rebelDto;
     }
