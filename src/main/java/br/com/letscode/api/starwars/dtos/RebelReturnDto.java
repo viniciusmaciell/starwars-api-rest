@@ -10,10 +10,12 @@ import java.util.UUID;
 @Getter
 @Setter
 public class RebelReturnDto {
+
     private UUID id;
     private String name;
     private Integer age;
     //    @JsonProperty("gender")
     private GenderEnum gender;
     private Location location;
+    private Integer confidenceLevel;
 }

@@ -3,6 +3,7 @@ package br.com.letscode.api.starwars.controllers;
 import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
 import br.com.letscode.api.starwars.dtos.RebelDto;
 import br.com.letscode.api.starwars.dtos.RebelReturnDto;
+import br.com.letscode.api.starwars.dtos.ReportDto;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.services.RebelService;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,11 @@ public class RebelController {
     public ResponseEntity<Object> save(@RequestBody RebelDto rebel) {
         return ResponseEntity.status(HttpStatus.OK).body(service.save(rebel));
 
+    }
+
+    @PostMapping("/report")
+    public ResponseEntity<Object> reportRebel(@RequestBody ReportDto report) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.reportRebel(report));
     }
 
     @GetMapping("/list")

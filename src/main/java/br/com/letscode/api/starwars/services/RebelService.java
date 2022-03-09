@@ -3,6 +3,7 @@ package br.com.letscode.api.starwars.services;
 import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
 import br.com.letscode.api.starwars.dtos.RebelDto;
 import br.com.letscode.api.starwars.dtos.RebelReturnDto;
+import br.com.letscode.api.starwars.dtos.ReportDto;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.repositories.RebelRepository;
@@ -29,6 +30,7 @@ public class RebelService {
     public RebelReturnDto save(RebelDto rebelDto) {
         var rebel = new Rebel();
         BeanUtils.copyProperties(rebelDto, rebel);
+
         repository.save(rebel);
 
         var rebelReturn = new RebelReturnDto();
@@ -37,8 +39,6 @@ public class RebelService {
     }
 
     public RebelReturnDto setRebelCurrentLocation(UUID id, CurrentLocationDto currentLocationDto) {
-        System.out.println("service setCurrentLocation");
-
 
         Location location = new Location();
         BeanUtils.copyProperties(currentLocationDto, location);
@@ -56,5 +56,10 @@ public class RebelService {
 
 
         return returnedRebelDto;
+    }
+
+    public String reportRebel(ReportDto report) {
+       return repository.reportRebel(report);
+
     }
 }

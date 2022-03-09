@@ -1,5 +1,6 @@
 package br.com.letscode.api.starwars.repositories;
 
+import br.com.letscode.api.starwars.dtos.ReportDto;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,8 @@ import java.util.UUID;
 public class RebelRepository {
 
     private static List<Rebel> rebels = new ArrayList<>();
+
+    private static List<Rebel> traidorsRebels = new ArrayList<>();
 
 //    static {
 //
@@ -26,7 +29,7 @@ public class RebelRepository {
 //        )));
 //    }
 
-    public Rebel save(Rebel rebel){
+    public Rebel save(Rebel rebel) {
         rebel.setId(UUID.randomUUID());
         rebels.add(rebel);
         return rebel;
@@ -36,9 +39,8 @@ public class RebelRepository {
         return rebels;
     }
 
-//    public Rebel findById(UUID id){
-//        System.out.println("repository findById");
-//        System.out.println("id: " + id);
+//    public Rebel findById(UUID id) {
+//
 //        Rebel returnedRebel = rebels.stream()
 //                .filter(rebel -> rebel.getId().equals(id))
 //                .findFirst().get();
@@ -46,10 +48,27 @@ public class RebelRepository {
 //        return returnedRebel;
 //    }
 
+public Rebel findById(UUID id) {
+
+        Rebel returnedRebel = rebels.stream()
+                .filter(rebel ->
+                        rebel.getId().equals(id))
+                .findFirst().get();
+        System.out.println(returnedRebel);
+        return returnedRebel;
+    }
+
+/*    public Optional<Rebel> findById(UUID id) {
+        Optional<Rebel> existedRebel = rebels.stream()
+                .filter(rebel -> rebel.getId().equals(id))
+        return existedRebel;
+    }*/
+
+
     public Rebel updateRebelLocation(UUID id, Location location) {
         Rebel rebelToReturn = new Rebel();
-        for (Rebel rebel : rebels){
-            if (rebel.getId().equals(id)){
+        for (Rebel rebel : rebels) {
+            if (rebel.getId().equals(id)) {
                 rebel.setLocation(location);
                 rebelToReturn = rebel;
                 break;
@@ -57,6 +76,12 @@ public class RebelRepository {
         }
 
         return rebelToReturn;
+    }
+
+    public String reportRebel(ReportDto report) {
+        Rebel potentialTraidor = findById(report.getTraitorId());
+        potentialTraidor.report();
+        return "Your report was accepted";
     }
 }
 
