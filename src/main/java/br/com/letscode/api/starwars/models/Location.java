@@ -8,18 +8,7 @@ public class Location {
     private Integer longitude;
     private String baseName;
 
-    public Location(Integer latitude, Integer longitude, String baseName) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.baseName = baseName;
+    public Location(){
     }
 
-    @Override
-    public String toString() {
-        return "LocationModel{" +
-                "latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", baseName='" + baseName + '\'' +
-                '}';
-    }
 }

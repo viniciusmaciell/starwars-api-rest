@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class RebelDto {
 
-    private String  name;
+    private String name;
     private Integer age;
     private GenderEnum gender;
     private Location location;
