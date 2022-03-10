@@ -4,6 +4,7 @@ import br.com.letscode.api.starwars.enums.GenderEnum;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -16,6 +17,7 @@ public class Rebel {
     private GenderEnum gender;
     private Integer confidenceLevel;
     private Location location;
+    private List<Item> inventory;
 //    private List<Long> complaints;
 
     public Rebel() {
