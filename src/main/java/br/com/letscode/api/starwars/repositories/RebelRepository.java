@@ -1,11 +1,14 @@
 package br.com.letscode.api.starwars.repositories;
 
 import br.com.letscode.api.starwars.dtos.ReportDto;
+import br.com.letscode.api.starwars.models.Exchange;
+import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +18,19 @@ public class RebelRepository {
     private static List<Rebel> rebels = new ArrayList<>();
 
     private static List<Rebel> traidorsRebels = new ArrayList<>();
+
+    private static List<Exchange> openOffers = new ArrayList<>();
+
+    static {
+        openOffers.addAll(
+                Arrays.asList(
+                        new Exchange(1L,
+                                Arrays.asList(new Item(1L, "arma", Integer.valueOf("1")),
+                                            new Item(2L, "municao", Integer.valueOf("2"))),
+                                Arrays.asList(new Item(1L, "arma", Integer.valueOf("1")),
+                                        new Item(2L, "municao", Integer.valueOf("2"))))));
+
+    }
 
 //    static {
 //
