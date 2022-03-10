@@ -3,6 +3,7 @@ package br.com.letscode.api.starwars.repositories;
 import br.com.letscode.api.starwars.dtos.ReportDto;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
+import br.com.letscode.api.starwars.models.Report;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class RebelRepository {
     private static List<Rebel> rebels = new ArrayList<>();
 
     private static List<Rebel> traidorsRebels = new ArrayList<>();
+
 
 //    static {
 //
@@ -78,10 +80,10 @@ public Rebel findById(UUID id) {
         return rebelToReturn;
     }
 
-    public String reportRebel(ReportDto report) {
+    public String reportRebel(Report report) {
         Rebel potentialTraidor = findById(report.getTraitorId());
         potentialTraidor.report();
-        return "Your report was accepted";
+        return "Your report was accepted.";
     }
 }
 

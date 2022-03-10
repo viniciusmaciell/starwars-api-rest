@@ -6,6 +6,7 @@ import br.com.letscode.api.starwars.dtos.RebelReturnDto;
 import br.com.letscode.api.starwars.dtos.ReportDto;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
+import br.com.letscode.api.starwars.models.Report;
 import br.com.letscode.api.starwars.repositories.RebelRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -54,12 +55,14 @@ public class RebelService {
 //        returnedRebelDto.setGender(rebel.getGender());
 //        returnedRebelDto.setLocation(rebel.getLocation());
 
-
         return returnedRebelDto;
     }
 
     public String reportRebel(ReportDto report) {
-       return repository.reportRebel(report);
+
+        Report reportCall = new Report();
+        BeanUtils.copyProperties(report, reportCall);
+        return repository.reportRebel(reportCall);
 
     }
 }

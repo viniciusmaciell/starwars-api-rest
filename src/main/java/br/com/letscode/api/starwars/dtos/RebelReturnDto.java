@@ -16,6 +16,7 @@ public class RebelReturnDto {
     private Integer age;
     //    @JsonProperty("gender")
     private GenderEnum gender;
-    private Location location;
     private Integer confidenceLevel;
+    private Location location;
+
 }
