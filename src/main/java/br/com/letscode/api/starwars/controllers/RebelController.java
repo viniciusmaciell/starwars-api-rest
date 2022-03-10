@@ -1,9 +1,7 @@
 package br.com.letscode.api.starwars.controllers;
 
-import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
-import br.com.letscode.api.starwars.dtos.RebelDto;
-import br.com.letscode.api.starwars.dtos.RebelReturnDto;
-import br.com.letscode.api.starwars.dtos.ReportDto;
+import br.com.letscode.api.starwars.dtos.*;
+import br.com.letscode.api.starwars.models.Exchange;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.services.RebelService;
 import org.springframework.http.HttpStatus;
@@ -34,9 +32,19 @@ public class RebelController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.reportRebel(report));
     }
 
+    @PostMapping("/open-offers")
+    public ResponseEntity<ExchangeDto> addOffer(@RequestBody ExchangeDto exchangeDto){
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.addOffer(exchangeDto));
+    }
+
     @GetMapping("/list")
     public List<Rebel> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/open-offers")
+    public List<Exchange> getAllOpenOffers(){
+            return service.getAllOpenOffers();
     }
 
     @PutMapping("/{id}")

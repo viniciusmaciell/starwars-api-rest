@@ -1,12 +1,15 @@
 package br.com.letscode.api.starwars.repositories;
 
+import br.com.letscode.api.starwars.dtos.ExchangeDto;
 import br.com.letscode.api.starwars.dtos.ReportDto;
+import br.com.letscode.api.starwars.models.Exchange;
+import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
-import br.com.letscode.api.starwars.models.Report;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +20,18 @@ public class RebelRepository {
 
     private static List<Rebel> traidorsRebels = new ArrayList<>();
 
+    private static List<Exchange> openOffers = new ArrayList<>();
+
+    static {
+        openOffers.addAll(
+                Arrays.asList(
+                        new Exchange(UUID.randomUUID(),
+                                Arrays.asList(new Item(UUID.randomUUID(), "arma", Integer.valueOf("1")),
+                                            new Item(UUID.randomUUID(), "municao", Integer.valueOf("2"))),
+                                Arrays.asList(new Item(UUID.randomUUID(), "arma", Integer.valueOf("1")),
+                                        new Item(UUID.randomUUID(), "municao", Integer.valueOf("2"))))));
+
+    }
 
 //    static {
 //
@@ -80,10 +95,20 @@ public Rebel findById(UUID id) {
         return rebelToReturn;
     }
 
-    public String reportRebel(Report report) {
+    public String reportRebel(ReportDto report) {
         Rebel potentialTraidor = findById(report.getTraitorId());
         potentialTraidor.report();
-        return "Your report was accepted.";
+        return "Your report was accepted";
+    }
+
+    public List<Exchange> getAllOpenOffers() {
+        return openOffers;
+    }
+
+    public Exchange addOffer(Exchange newOffer) {
+        newOffer.setId(UUID.randomUUID());
+        openOffers.add(newOffer);
+        return newOffer;
     }
 }
 

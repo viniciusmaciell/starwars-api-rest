@@ -1,9 +1,7 @@
 package br.com.letscode.api.starwars.services;
 
-import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
-import br.com.letscode.api.starwars.dtos.RebelDto;
-import br.com.letscode.api.starwars.dtos.RebelReturnDto;
-import br.com.letscode.api.starwars.dtos.ReportDto;
+import br.com.letscode.api.starwars.dtos.*;
+import br.com.letscode.api.starwars.models.Exchange;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.models.Report;
@@ -64,5 +62,17 @@ public class RebelService {
         BeanUtils.copyProperties(report, reportCall);
         return repository.reportRebel(reportCall);
 
+    }
+
+    public List<Exchange> getAllOpenOffers() {
+        return repository.getAllOpenOffers();
+    }
+
+    public ExchangeDto addOffer(ExchangeDto exchangeDto) {
+        Exchange newOffer = new Exchange();
+        BeanUtils.copyProperties(exchangeDto, newOffer);
+        Exchange savedOffer = repository.addOffer(newOffer);
+        BeanUtils.copyProperties(savedOffer, exchangeDto);
+        return exchangeDto;
     }
 }

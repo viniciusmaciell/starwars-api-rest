@@ -17,8 +17,8 @@ public class Rebel {
     private GenderEnum gender;
     private Integer confidenceLevel;
     private Location location;
-
-    private List<UUID> complaints;
+    private List<Item> inventory;
+//    private List<Long> complaints;
 
     public Rebel() {
         this.confidenceLevel = 2;
