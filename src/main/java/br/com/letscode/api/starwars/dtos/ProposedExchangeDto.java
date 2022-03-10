@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class ExchangeDto {
+public class ProposedExchangeDto {
 
     private List<Item> offer;
     private List<Item> demand;

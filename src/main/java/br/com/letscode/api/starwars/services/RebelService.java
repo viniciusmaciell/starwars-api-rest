@@ -65,7 +65,7 @@ public class RebelService {
         return repository.getAllOpenOffers();
     }
 
-    public ExchangeDto addOffer(ExchangeDto exchangeDto) {
+    public ProposedExchangeDto addOffer(ProposedExchangeDto exchangeDto) {
         ProposedExchange newOffer = new ProposedExchange();
         BeanUtils.copyProperties(exchangeDto, newOffer);
         ProposedExchange savedOffer = repository.addOffer(newOffer);
