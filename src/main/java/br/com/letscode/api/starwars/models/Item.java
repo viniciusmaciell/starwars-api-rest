@@ -13,6 +13,9 @@ public class Item {
     private String name;
     private Integer score;
 
-    public Item(long l, String name, Integer score) {
+    public Item(Long id, String name, Integer score) {
+        this.id = id;
+        this.name = name;
+        this.score = score;
     }
 }
