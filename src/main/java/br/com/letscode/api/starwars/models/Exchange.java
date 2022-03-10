@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,11 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Exchange {
 
-    private Long id;
+    private UUID id;
     private List<Item> offer;
     private List<Item> demand;
 
-    public Exchange(Long id, List<Item> offer, List<Item> demand) {
+    public Exchange(UUID id, List<Item> offer, List<Item> demand) {
         this.id = id;
         this.offer = offer;
         this.demand = demand;

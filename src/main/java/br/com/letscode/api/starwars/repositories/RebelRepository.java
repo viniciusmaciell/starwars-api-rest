@@ -25,11 +25,11 @@ public class RebelRepository {
     static {
         openOffers.addAll(
                 Arrays.asList(
-                        new Exchange(1L,
-                                Arrays.asList(new Item(1L, "arma", Integer.valueOf("1")),
-                                            new Item(2L, "municao", Integer.valueOf("2"))),
-                                Arrays.asList(new Item(1L, "arma", Integer.valueOf("1")),
-                                        new Item(2L, "municao", Integer.valueOf("2"))))));
+                        new Exchange(UUID.randomUUID(),
+                                Arrays.asList(new Item(UUID.randomUUID(), "arma", Integer.valueOf("1")),
+                                            new Item(UUID.randomUUID(), "municao", Integer.valueOf("2"))),
+                                Arrays.asList(new Item(UUID.randomUUID(), "arma", Integer.valueOf("1")),
+                                        new Item(UUID.randomUUID(), "municao", Integer.valueOf("2"))))));
 
     }
 
@@ -106,7 +106,7 @@ public Rebel findById(UUID id) {
     }
 
     public Exchange addOffer(Exchange newOffer) {
-        newOffer.setId(openOffers.get(openOffers.size() - 1).getId()+1);
+        newOffer.setId(UUID.randomUUID());
         openOffers.add(newOffer);
         return newOffer;
     }
