@@ -1,5 +1,6 @@
 package br.com.letscode.api.starwars.repositories;
 
+import br.com.letscode.api.starwars.dtos.ExchangeDto;
 import br.com.letscode.api.starwars.dtos.ReportDto;
 import br.com.letscode.api.starwars.models.Exchange;
 import br.com.letscode.api.starwars.models.Item;
@@ -101,8 +102,13 @@ public Rebel findById(UUID id) {
     }
 
     public List<Exchange> getAllOpenOffers() {
-        System.out.println(openOffers);
         return openOffers;
+    }
+
+    public Exchange addOffer(Exchange newOffer) {
+        newOffer.setId(openOffers.get(openOffers.size() - 1).getId()+1);
+        openOffers.add(newOffer);
+        return newOffer;
     }
 }
 
