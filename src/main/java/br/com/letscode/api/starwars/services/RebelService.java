@@ -4,6 +4,7 @@ import br.com.letscode.api.starwars.dtos.CurrentLocationDto;
 import br.com.letscode.api.starwars.dtos.RebelDto;
 import br.com.letscode.api.starwars.dtos.RebelReturnDto;
 import br.com.letscode.api.starwars.dtos.ReportDto;
+import br.com.letscode.api.starwars.models.Exchange;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.repositories.RebelRepository;
@@ -61,5 +62,9 @@ public class RebelService {
     public String reportRebel(ReportDto report) {
        return repository.reportRebel(report);
 
+    }
+
+    public List<Exchange> getAllOpenOffers() {
+        return repository.getAllOpenOffers();
     }
 }

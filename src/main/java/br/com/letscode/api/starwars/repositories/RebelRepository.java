@@ -99,5 +99,10 @@ public Rebel findById(UUID id) {
         potentialTraidor.report();
         return "Your report was accepted";
     }
+
+    public List<Exchange> getAllOpenOffers() {
+        System.out.println(openOffers);
+        return openOffers;
+    }
 }
 
