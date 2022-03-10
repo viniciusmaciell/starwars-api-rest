@@ -13,4 +13,6 @@ public class Item {
     private String name;
     private Integer score;
 
+    public Item(long l, String name, Integer score) {
+    }
 }
