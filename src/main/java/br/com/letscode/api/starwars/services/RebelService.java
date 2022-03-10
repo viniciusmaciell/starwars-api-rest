@@ -1,7 +1,7 @@
 package br.com.letscode.api.starwars.services;
 
 import br.com.letscode.api.starwars.dtos.*;
-import br.com.letscode.api.starwars.models.Exchange;
+import br.com.letscode.api.starwars.models.ProposedExchange;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.repositories.RebelRepository;
@@ -61,14 +61,14 @@ public class RebelService {
 
     }
 
-    public List<Exchange> getAllOpenOffers() {
+    public List<ProposedExchange> getAllOpenOffers() {
         return repository.getAllOpenOffers();
     }
 
     public ExchangeDto addOffer(ExchangeDto exchangeDto) {
-        Exchange newOffer = new Exchange();
+        ProposedExchange newOffer = new ProposedExchange();
         BeanUtils.copyProperties(exchangeDto, newOffer);
-        Exchange savedOffer = repository.addOffer(newOffer);
+        ProposedExchange savedOffer = repository.addOffer(newOffer);
         BeanUtils.copyProperties(savedOffer, exchangeDto);
         return exchangeDto;
     }

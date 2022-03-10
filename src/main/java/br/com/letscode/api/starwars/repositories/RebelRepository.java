@@ -1,9 +1,8 @@
 package br.com.letscode.api.starwars.repositories;
 
-import br.com.letscode.api.starwars.dtos.ExchangeDto;
 import br.com.letscode.api.starwars.dtos.ReportDto;
 import br.com.letscode.api.starwars.enums.ItemEnum;
-import br.com.letscode.api.starwars.models.Exchange;
+import br.com.letscode.api.starwars.models.ProposedExchange;
 import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
@@ -21,12 +20,12 @@ public class RebelRepository {
 
     private static List<Rebel> traidorsRebels = new ArrayList<>();
 
-    private static List<Exchange> openOffers = new ArrayList<>();
+    private static List<ProposedExchange> openOffers = new ArrayList<>();
 
     static {
         openOffers.addAll(
                 Arrays.asList(
-                        new Exchange(UUID.randomUUID(),
+                        new ProposedExchange(UUID.randomUUID(),
                                 Arrays.asList(new Item(UUID.randomUUID(), ItemEnum.WATER, Integer.valueOf("2")),
                                             new Item(UUID.randomUUID(), ItemEnum.AMMUNITION, Integer.valueOf("3"))),
                                 Arrays.asList(new Item(UUID.randomUUID(), ItemEnum.FOOD, Integer.valueOf("1")),
@@ -102,11 +101,11 @@ public Rebel findById(UUID id) {
         return "Your report was accepted";
     }
 
-    public List<Exchange> getAllOpenOffers() {
+    public List<ProposedExchange> getAllOpenOffers() {
         return openOffers;
     }
 
-    public Exchange addOffer(Exchange newOffer) {
+    public ProposedExchange addOffer(ProposedExchange newOffer) {
         newOffer.setId(UUID.randomUUID());
         openOffers.add(newOffer);
         return newOffer;

@@ -12,13 +12,13 @@ import java.util.UUID;
 @Setter
 @Data
 @RequiredArgsConstructor
-public class Exchange {
+public class ProposedExchange {
 
     private UUID id;
     private List<Item> offer;
     private List<Item> demand;
 
-    public Exchange(UUID id, List<Item> offer, List<Item> demand) {
+    public ProposedExchange(UUID id, List<Item> offer, List<Item> demand) {
         this.id = id;
         this.offer = offer;
         this.demand = demand;
