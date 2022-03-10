@@ -2,6 +2,7 @@ package br.com.letscode.api.starwars.repositories;
 
 import br.com.letscode.api.starwars.dtos.ExchangeDto;
 import br.com.letscode.api.starwars.dtos.ReportDto;
+import br.com.letscode.api.starwars.enums.ItemEnum;
 import br.com.letscode.api.starwars.models.Exchange;
 import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
@@ -26,10 +27,10 @@ public class RebelRepository {
         openOffers.addAll(
                 Arrays.asList(
                         new Exchange(UUID.randomUUID(),
-                                Arrays.asList(new Item(UUID.randomUUID(), "arma", Integer.valueOf("1")),
-                                            new Item(UUID.randomUUID(), "municao", Integer.valueOf("2"))),
-                                Arrays.asList(new Item(UUID.randomUUID(), "arma", Integer.valueOf("1")),
-                                        new Item(UUID.randomUUID(), "municao", Integer.valueOf("2"))))));
+                                Arrays.asList(new Item(UUID.randomUUID(), ItemEnum.WATER, Integer.valueOf("2")),
+                                            new Item(UUID.randomUUID(), ItemEnum.AMMUNITION, Integer.valueOf("3"))),
+                                Arrays.asList(new Item(UUID.randomUUID(), ItemEnum.FOOD, Integer.valueOf("1")),
+                                        new Item(UUID.randomUUID(), ItemEnum.WEAPON, Integer.valueOf("4"))))));
 
     }
 

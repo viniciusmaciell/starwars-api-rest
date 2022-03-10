@@ -1,5 +1,6 @@
 package br.com.letscode.api.starwars.models;
 
+import br.com.letscode.api.starwars.enums.ItemEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,10 +13,10 @@ import java.util.UUID;
 public class Item {
 
     private UUID id;
-    private String name;
+    private ItemEnum name;
     private Integer score;
 
-    public Item(UUID id, String name, Integer score) {
+    public Item(UUID id, ItemEnum name, Integer score) {
         this.id = id;
         this.name = name;
         this.score = score;
