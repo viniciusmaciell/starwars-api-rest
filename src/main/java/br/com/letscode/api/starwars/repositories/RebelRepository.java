@@ -1,11 +1,6 @@
 package br.com.letscode.api.starwars.repositories;
 
-import br.com.letscode.api.starwars.dtos.ExchangeDto;
-import br.com.letscode.api.starwars.dtos.ReportDto;
-import br.com.letscode.api.starwars.models.Exchange;
-import br.com.letscode.api.starwars.models.Item;
-import br.com.letscode.api.starwars.models.Location;
-import br.com.letscode.api.starwars.models.Rebel;
+import br.com.letscode.api.starwars.models.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -27,7 +22,7 @@ public class RebelRepository {
                 Arrays.asList(
                         new Exchange(UUID.randomUUID(),
                                 Arrays.asList(new Item(UUID.randomUUID(), "arma", Integer.valueOf("1")),
-                                            new Item(UUID.randomUUID(), "municao", Integer.valueOf("2"))),
+                                        new Item(UUID.randomUUID(), "municao", Integer.valueOf("2"))),
                                 Arrays.asList(new Item(UUID.randomUUID(), "arma", Integer.valueOf("1")),
                                         new Item(UUID.randomUUID(), "municao", Integer.valueOf("2"))))));
 
@@ -65,7 +60,7 @@ public class RebelRepository {
 //        return returnedRebel;
 //    }
 
-public Rebel findById(UUID id) {
+    public Rebel findById(UUID id) {
 
         Rebel returnedRebel = rebels.stream()
                 .filter(rebel ->
@@ -73,6 +68,28 @@ public Rebel findById(UUID id) {
                 .findFirst().get();
         System.out.println(returnedRebel);
         return returnedRebel;
+    }
+
+    public boolean isReliableRebel(UUID id) {
+        boolean response = false;
+
+        for (Rebel rebel : rebels) {
+            if (rebel.getId().equals(id)) {
+                response = true;
+            }
+        }
+        return response;
+    }
+
+    public boolean isAlreadyTraitor(UUID id) {
+        boolean response = false;
+
+        for (Rebel rebel : traidorsRebels) {
+            if (rebel.getId().equals(id)) {
+                response = true;
+            }
+        }
+        return response;
     }
 
 /*    public Optional<Rebel> findById(UUID id) {
@@ -93,12 +110,6 @@ public Rebel findById(UUID id) {
         }
 
         return rebelToReturn;
-    }
-
-    public String reportRebel(ReportDto report) {
-        Rebel potentialTraidor = findById(report.getTraitorId());
-        potentialTraidor.report();
-        return "Your report was accepted";
     }
 
     public List<Exchange> getAllOpenOffers() {
