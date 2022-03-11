@@ -54,6 +54,18 @@ public class RebelService {
        return repository.reportRebel(report);
     }
 
+    public boolean isReliableRebel(UUID id) {
+        boolean response = false;
+
+        for (Rebel rebel : repository.getAll()) {
+            if (rebel.getId().equals(id)) {
+                response = true;
+            }
+        }
+        return response;
+    }
+
+
     public List<Deal> getAllOpenDeals() {
         return repository.getAllOpenDeals();
     }
