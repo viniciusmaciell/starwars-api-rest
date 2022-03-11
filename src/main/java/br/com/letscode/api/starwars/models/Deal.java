@@ -1,6 +1,5 @@
 package br.com.letscode.api.starwars.models;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -10,17 +9,12 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Data
 @RequiredArgsConstructor
-public class ProposedExchange {
+public class Deal {
 
     private UUID id;
+    private UUID partyId;
     private List<Item> offer;
     private List<Item> demand;
 
-    public ProposedExchange(UUID id, List<Item> offer, List<Item> demand) {
-        this.id = id;
-        this.offer = offer;
-        this.demand = demand;
-    }
 }
