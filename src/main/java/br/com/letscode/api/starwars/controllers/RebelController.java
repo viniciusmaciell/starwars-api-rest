@@ -39,7 +39,7 @@ public class RebelController {
 
     @PostMapping("/make-deal")
     public ResponseEntity<Object> makeADeal(@RequestBody CounterpartyDto counterpartyDto){
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.exchangeItems(counterpartyDto));
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.makeADeal(counterpartyDto));
     }
 
     @GetMapping("/list")
