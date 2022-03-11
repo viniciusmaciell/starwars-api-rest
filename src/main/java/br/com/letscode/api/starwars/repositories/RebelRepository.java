@@ -109,5 +109,9 @@ public class RebelRepository {
         }
         return rebelToReturn;
     }
+
+    public void removeDeal(Deal deal) {
+        openOffers.remove(getDealById(deal.getId()));
+    }
 }
 
