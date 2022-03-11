@@ -7,7 +7,9 @@ import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.repositories.RebelRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +25,6 @@ public class RebelService {
 
     public List<Rebel> getAll() {
         return repository.getAll();
-
     }
 
     public RebelReturnDto save(RebelDto rebelDto) {
@@ -51,7 +52,6 @@ public class RebelService {
 
     public String reportRebel(ReportDto report) {
        return repository.reportRebel(report);
-
     }
 
     public List<Deal> getAllOpenDeals() {
@@ -59,25 +59,34 @@ public class RebelService {
     }
 
     public ReturnDealDto addOffer(DealDto dealDto) {
-        Deal newOffer = new Deal();
-        BeanUtils.copyProperties(dealDto, newOffer);
-        Deal savedOffer = repository.addOffer(newOffer);
+        Deal deal = new Deal();
+        BeanUtils.copyProperties(dealDto, deal);
+        validateDeal(deal.getPartyId(),deal.getOffer());
+        Deal savedOffer = repository.addOffer(deal);
         ReturnDealDto returnDealDto = new ReturnDealDto();
         BeanUtils.copyProperties(savedOffer, returnDealDto);
         return returnDealDto;
     }
 
-    public Rebel makeADeal(CounterpartyDto counterpartyDto) {
+    private void validateDeal(UUID rebelId, List<Item> items) {
+        Rebel rebel = repository.findById(rebelId);
+        if(rebel.getConfidenceLevel() == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You're a traitor. You cant make a deal.");
+        }
+        if(!rebel.getInventory().containsAll(items)){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You don't have the items you offered.");
+        }
+    }
+
+    public Object makeADeal(CounterpartyDto counterpartyDto) {
         Deal deal = repository.getDealById(counterpartyDto.getDealId());
         Rebel party = repository.findById(deal.getPartyId());
         Rebel counterparty = repository.findById(counterpartyDto.getCounterpartyId());
-
+        validateDeal(counterparty.getId(),deal.getDemand());
         exchangeItems(deal, party, counterparty);
-
         counterparty = repository.updateInventory(counterparty);
         repository.updateInventory(party);
         repository.removeDeal(deal);
-
         return counterparty;
     }
 
