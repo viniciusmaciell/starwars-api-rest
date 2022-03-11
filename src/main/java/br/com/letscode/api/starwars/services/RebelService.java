@@ -68,7 +68,7 @@ public class RebelService {
     public boolean isAlreadyTraitor(UUID id) {
         boolean response = false;
 
-        for (Rebel rebel : repositorytraidorsRebels) {
+        for (Rebel rebel : repository.getAllTraitors()) {
             if (rebel.getId().equals(id)) {
                 response = true;
             }
