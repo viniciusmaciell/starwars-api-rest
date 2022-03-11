@@ -54,8 +54,8 @@ public class RebelService {
 
     }
 
-    public List<Deal> getAllOpenOffers() {
-        return repository.getAllOpenOffers();
+    public List<Deal> getAllOpenDeals() {
+        return repository.getAllOpenDeals();
     }
 
     public ReturnDealDto addOffer(DealDto dealDto) {

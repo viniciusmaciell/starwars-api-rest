@@ -81,7 +81,7 @@ public class RebelRepository {
         return "Your report was accepted";
     }
 
-    public List<Deal> getAllOpenOffers() {
+    public List<Deal> getAllOpenDeals() {
         return openOffers;
     }
 

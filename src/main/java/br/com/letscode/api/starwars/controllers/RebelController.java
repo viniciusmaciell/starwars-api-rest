@@ -49,7 +49,7 @@ public class RebelController {
 
     @GetMapping("/open-deals")
     public List<Deal> getAllOpenDeals(){
-        return service.getAllOpenOffers();
+        return service.getAllOpenDeals();
     }
 
     @PutMapping("/{id}")
