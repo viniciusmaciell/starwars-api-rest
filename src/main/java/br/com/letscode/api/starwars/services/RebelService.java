@@ -60,10 +60,7 @@ public class RebelService {
 
     public ReturnDealDto addOffer(DealDto dealDto) {
         Deal newOffer = new Deal();
-//        BeanUtils.copyProperties(dealDto, newOffer);
-        newOffer.setPartyId(dealDto.getPartyId());
-        newOffer.setOffer(dealDto.getOffer());
-        newOffer.setDemand(dealDto.getDemand());
+        BeanUtils.copyProperties(dealDto, newOffer);
         Deal savedOffer = repository.addOffer(newOffer);
         ReturnDealDto returnDealDto = new ReturnDealDto();
         BeanUtils.copyProperties(savedOffer, returnDealDto);
