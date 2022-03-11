@@ -65,6 +65,19 @@ public class RebelService {
         return response;
     }
 
+    public boolean isAlreadyTraitor(UUID id) {
+        boolean response = false;
+
+        for (Rebel rebel : repositorytraidorsRebels) {
+            if (rebel.getId().equals(id)) {
+                response = true;
+            }
+        }
+        return response;
+    }
+
+
+
 
     public List<Deal> getAllOpenDeals() {
         return repository.getAllOpenDeals();

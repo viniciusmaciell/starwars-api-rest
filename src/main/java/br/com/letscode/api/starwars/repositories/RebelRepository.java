@@ -53,6 +53,10 @@ public class RebelRepository {
         return rebels;
     }
 
+    public List<Rebel> getAllTraitors(){
+        return traidorsRebels;
+    }
+
     public Rebel findById(UUID id) {
         Rebel returnedRebel = rebels.stream()
                 .filter(rebel ->
