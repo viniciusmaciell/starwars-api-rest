@@ -47,8 +47,8 @@ public class RebelController {
         return service.getAll();
     }
 
-    @GetMapping("/open-offers")
-    public List<Deal> getAllOpenOffers(){
+    @GetMapping("/open-deals")
+    public List<Deal> getAllOpenDeals(){
         return service.getAllOpenOffers();
     }
 
