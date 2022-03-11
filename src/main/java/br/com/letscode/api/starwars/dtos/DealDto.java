@@ -6,13 +6,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class ProposedExchangeDto {
+public class DealDto {
 
+    private UUID partyId;
     private List<Item> offer;
     private List<Item> demand;
 
