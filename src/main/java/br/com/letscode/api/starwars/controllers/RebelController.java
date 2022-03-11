@@ -1,7 +1,7 @@
 package br.com.letscode.api.starwars.controllers;
 
 import br.com.letscode.api.starwars.dtos.*;
-import br.com.letscode.api.starwars.models.Exchange;
+import br.com.letscode.api.starwars.models.Deal;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.services.RebelService;
 import org.springframework.http.HttpStatus;
@@ -32,9 +32,14 @@ public class RebelController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.reportRebel(report));
     }
 
-    @PostMapping("/open-offers")
-    public ResponseEntity<ExchangeDto> addOffer(@RequestBody ExchangeDto exchangeDto){
+    @PostMapping("/propose-deal")
+    public ResponseEntity<ReturnDealDto> proposeADeal(@RequestBody DealDto exchangeDto){
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.addOffer(exchangeDto));
+    }
+
+    @PostMapping("/make-deal")
+    public ResponseEntity<Object> makeADeal(@RequestBody CounterpartyDto counterpartyDto){
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.makeADeal(counterpartyDto));
     }
 
     @GetMapping("/list")
@@ -42,15 +47,14 @@ public class RebelController {
         return service.getAll();
     }
 
-    @GetMapping("/open-offers")
-    public List<Exchange> getAllOpenOffers(){
-            return service.getAllOpenOffers();
+    @GetMapping("/open-deals")
+    public List<Deal> getAllOpenDeals(){
+        return service.getAllOpenDeals();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<RebelReturnDto> setCurrentLocation(@PathVariable("id") UUID id,
                                                              @RequestBody CurrentLocationDto currentLocationDto) {
-        System.out.println("controller setCurrentLocation");
         return ResponseEntity.status(HttpStatus.OK).body(service.setRebelCurrentLocation(id, currentLocationDto));
 
     }

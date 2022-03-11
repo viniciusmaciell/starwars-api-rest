@@ -1,9 +1,12 @@
 package br.com.letscode.api.starwars.dtos;
 
 import br.com.letscode.api.starwars.enums.GenderEnum;
+import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -14,5 +17,5 @@ public class RebelDto {
     private Integer age;
     private GenderEnum gender;
     private Location location;
-
+    private List<Item> inventory;
 }

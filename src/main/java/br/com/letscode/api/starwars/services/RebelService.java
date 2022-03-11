@@ -1,13 +1,15 @@
 package br.com.letscode.api.starwars.services;
 
 import br.com.letscode.api.starwars.dtos.*;
-import br.com.letscode.api.starwars.models.Exchange;
+import br.com.letscode.api.starwars.models.Deal;
+import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
-import br.com.letscode.api.starwars.models.Report;
 import br.com.letscode.api.starwars.repositories.RebelRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +25,6 @@ public class RebelService {
 
     public List<Rebel> getAll() {
         return repository.getAll();
-
     }
 
     public RebelReturnDto save(RebelDto rebelDto) {
@@ -46,33 +47,61 @@ public class RebelService {
         Rebel rebel = repository.updateRebelLocation(id, location);
         BeanUtils.copyProperties(rebel, returnedRebelDto);
 
-
-//        returnedRebelDto.setId(rebel.getId());
-//        returnedRebelDto.setName(rebel.getName());
-//        returnedRebelDto.setAge(rebel.getAge());
-//        returnedRebelDto.setGender(rebel.getGender());
-//        returnedRebelDto.setLocation(rebel.getLocation());
-
         return returnedRebelDto;
     }
 
     public String reportRebel(ReportDto report) {
-
-        Report reportCall = new Report();
-        BeanUtils.copyProperties(report, reportCall);
-        return repository.reportRebel(reportCall);
-
+       return repository.reportRebel(report);
     }
 
-    public List<Exchange> getAllOpenOffers() {
-        return repository.getAllOpenOffers();
+    public List<Deal> getAllOpenDeals() {
+        return repository.getAllOpenDeals();
     }
 
-    public ExchangeDto addOffer(ExchangeDto exchangeDto) {
-        Exchange newOffer = new Exchange();
-        BeanUtils.copyProperties(exchangeDto, newOffer);
-        Exchange savedOffer = repository.addOffer(newOffer);
-        BeanUtils.copyProperties(savedOffer, exchangeDto);
-        return exchangeDto;
+    public ReturnDealDto addOffer(DealDto dealDto) {
+        Deal deal = new Deal();
+        BeanUtils.copyProperties(dealDto, deal);
+        validateDeal(deal.getPartyId(),deal.getOffer());
+        Deal savedOffer = repository.addOffer(deal);
+        ReturnDealDto returnDealDto = new ReturnDealDto();
+        BeanUtils.copyProperties(savedOffer, returnDealDto);
+        return returnDealDto;
+    }
+
+    private void validateDeal(UUID rebelId, List<Item> items) {
+        Rebel rebel = repository.findById(rebelId);
+        if(rebel.getConfidenceLevel() == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You're a traitor. You cant make a deal.");
+        }
+        if(!rebel.getInventory().containsAll(items)){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You don't have the items you offered.");
+        }
+    }
+
+    public Object makeADeal(CounterpartyDto counterpartyDto) {
+        Deal deal = repository.getDealById(counterpartyDto.getDealId());
+        Rebel party = repository.findById(deal.getPartyId());
+        Rebel counterparty = repository.findById(counterpartyDto.getCounterpartyId());
+        validateDeal(counterparty.getId(),deal.getDemand());
+        exchangeItems(deal, party, counterparty);
+        counterparty = repository.updateInventory(counterparty);
+        repository.updateInventory(party);
+        repository.removeDeal(deal);
+        return counterparty;
+    }
+
+    private void exchangeItems(Deal deal, Rebel party, Rebel counterparty) {
+        List<Item> offeredByParty = deal.getOffer();
+        List<Item> demandedByParty = deal.getDemand();
+        updateInventory(party, offeredByParty, demandedByParty);
+        updateInventory(counterparty, demandedByParty, offeredByParty);
+    }
+
+    private Rebel updateInventory(Rebel rebel, List<Item> itemsToRemove, List<Item> itemsToAdd) {
+        rebel.getInventory().addAll(itemsToAdd);
+        for (Item item : itemsToRemove) {
+            rebel.getInventory().remove(item);
+        }
+        return rebel;
     }
 }
