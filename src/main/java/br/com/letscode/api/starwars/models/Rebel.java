@@ -36,7 +36,7 @@ public class Rebel {
         }
     }
 
-    public void isNotTraitor(){
+    public void isReliable(){
         if(this.confidenceLevel <= 0){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"You're a traitor. You cant make a deal.");
         }
