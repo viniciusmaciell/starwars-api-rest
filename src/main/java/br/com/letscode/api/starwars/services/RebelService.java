@@ -71,7 +71,8 @@ public class RebelService {
         Deal deal = repository.getDealById(counterpartyDto.getDealId());
         Rebel party = repository.findById(deal.getPartyId());
         Rebel counterparty = repository.findById(counterpartyDto.getCounterpartyId());
-//        validateDeal(counterparty.getId(),deal.getDemand());
+        counterparty.isReliable();
+        counterparty.hasItems(deal.getDemand());
         exchangeItems(deal, party, counterparty);
         counterparty = repository.updateInventory(counterparty);
         repository.updateInventory(party);
