@@ -139,5 +139,14 @@ public class RebelRepository {
 
         return false;
     }
+
+    public boolean isAlreadyTraitor(UUID id) {
+        for (Rebel traitor : traidorsRebels) {
+            if (traitor.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

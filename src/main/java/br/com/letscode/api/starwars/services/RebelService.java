@@ -66,14 +66,7 @@ public class RebelService {
     }
 
     public boolean isAlreadyTraitor(UUID id) {
-        boolean response = false;
-
-        for (Rebel rebel : repository.getAllTraitors()) {
-            if (rebel.getId().equals(id)) {
-                response = true;
-            }
-        }
-        return response;
+        return repository.isAlreadyTraitor(id);
     }
 
     public List<Deal> getAllOpenDeals() {
@@ -128,6 +121,6 @@ public class RebelService {
     }
 
     public boolean isUniqueReport(ReportDto reportDto) {
-       return repository.isUniqueReport(reportDto);
+        return repository.isUniqueReport(reportDto);
     }
 }

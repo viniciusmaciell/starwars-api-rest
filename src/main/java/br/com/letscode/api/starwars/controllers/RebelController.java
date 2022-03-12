@@ -33,14 +33,15 @@ public class RebelController {
         if (!service.isReliableRebel(reportDto.getRebelId())) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You are not a registered rebel.");
         }
-        else if (!service.isUniqueReport(reportDto)) {
+        if (!service.isUniqueReport(reportDto)) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You have already report this rebel.");
         }
-//        else if (service.)
-        else {
-            service.reportRebel(reportDto);
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Your report was accepted.");
+        if (service.isAlreadyTraitor(reportDto.getTraitorId())) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This rebel is already a traitor.");
         }
+        service.reportRebel(reportDto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Your report was accepted.");
+
     }
 
     @PostMapping("/propose-deal")
