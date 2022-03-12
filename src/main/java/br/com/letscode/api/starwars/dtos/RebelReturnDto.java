@@ -1,11 +1,12 @@
 package br.com.letscode.api.starwars.dtos;
 
-import br.com.letscode.api.starwars.enums.GenderEnum;
 import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
+import br.com.letscode.api.starwars.utils.GenderEnum;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ public class RebelReturnDto {
     private GenderEnum gender;
     private Location location;
     private Integer confidenceLevel;
+    private LocalDate registrationDate;
     private List<Item> inventory;
 
 }

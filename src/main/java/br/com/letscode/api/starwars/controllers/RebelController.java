@@ -22,8 +22,8 @@ public class RebelController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody RebelDto rebel) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.save(rebel));
+    public ResponseEntity<Object> saveRebel(@RequestBody RebelDto rebelDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveRebel(rebelDto));
 
     }
 

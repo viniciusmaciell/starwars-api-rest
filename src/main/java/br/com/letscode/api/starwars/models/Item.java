@@ -1,6 +1,6 @@
 package br.com.letscode.api.starwars.models;
 
-import br.com.letscode.api.starwars.enums.ItemEnum;
+import br.com.letscode.api.starwars.utils.ItemEnum;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

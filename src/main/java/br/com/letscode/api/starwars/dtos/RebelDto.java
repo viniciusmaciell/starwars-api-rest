@@ -1,6 +1,6 @@
 package br.com.letscode.api.starwars.dtos;
 
-import br.com.letscode.api.starwars.enums.GenderEnum;
+import br.com.letscode.api.starwars.utils.GenderEnum;
 import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
 import lombok.Getter;

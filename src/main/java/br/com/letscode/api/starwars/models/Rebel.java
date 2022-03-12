@@ -1,11 +1,11 @@
 package br.com.letscode.api.starwars.models;
 
-import br.com.letscode.api.starwars.enums.GenderEnum;
-import lombok.AllArgsConstructor;
+import br.com.letscode.api.starwars.utils.GenderEnum;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +19,7 @@ public class Rebel {
     private GenderEnum gender;
     private Integer confidenceLevel;
     private Location location;
+    private LocalDate registrationDate;
     private List<Item> inventory;
     private List<UUID> complaintsId;
 

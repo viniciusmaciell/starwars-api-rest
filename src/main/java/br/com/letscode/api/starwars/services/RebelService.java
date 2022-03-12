@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,10 +30,10 @@ public class RebelService {
         return repository.getAll();
     }
 
-    public RebelReturnDto save(RebelDto rebelDto) {
+    public RebelReturnDto saveRebel(RebelDto rebelDto) {
         var rebel = new Rebel();
         BeanUtils.copyProperties(rebelDto, rebel);
-
+        rebel.setRegistrationDate(LocalDate.now());
         repository.save(rebel);
 
         var rebelReturn = new RebelReturnDto();
@@ -51,7 +54,14 @@ public class RebelService {
     }
 
     public String reportRebel(ReportDto report) {
-       return repository.reportRebel(report);
+
+        var rebel = new Rebel();
+        var potentialTraitor = new Rebel();
+
+        if (isReliableRebel(rebel.getId())) {
+
+        }
+        return repository.reportRebel(report);
     }
 
     public boolean isReliableRebel(UUID id) {
@@ -76,9 +86,6 @@ public class RebelService {
         return response;
     }
 
-
-
-
     public List<Deal> getAllOpenDeals() {
         return repository.getAllOpenDeals();
     }
@@ -86,7 +93,7 @@ public class RebelService {
     public ReturnDealDto addOffer(DealDto dealDto) {
         Deal deal = new Deal();
         BeanUtils.copyProperties(dealDto, deal);
-        validateDeal(deal.getPartyId(),deal.getOffer());
+        validateDeal(deal.getPartyId(), deal.getOffer());
         Deal savedOffer = repository.addOffer(deal);
         ReturnDealDto returnDealDto = new ReturnDealDto();
         BeanUtils.copyProperties(savedOffer, returnDealDto);
@@ -95,11 +102,11 @@ public class RebelService {
 
     private void validateDeal(UUID rebelId, List<Item> items) {
         Rebel rebel = repository.findById(rebelId);
-        if(rebel.getConfidenceLevel() == 0){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You're a traitor. You cant make a deal.");
+        if (rebel.getConfidenceLevel() == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You're a traitor. You cant make a deal.");
         }
-        if(!rebel.getInventory().containsAll(items)){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You don't have the items you offered.");
+        if (!rebel.getInventory().containsAll(items)) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You don't have the items you offered.");
         }
     }
 
@@ -107,7 +114,7 @@ public class RebelService {
         Deal deal = repository.getDealById(counterpartyDto.getDealId());
         Rebel party = repository.findById(deal.getPartyId());
         Rebel counterparty = repository.findById(counterpartyDto.getCounterpartyId());
-        validateDeal(counterparty.getId(),deal.getDemand());
+        validateDeal(counterparty.getId(), deal.getDemand());
         exchangeItems(deal, party, counterparty);
         counterparty = repository.updateInventory(counterparty);
         repository.updateInventory(party);
