@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,26 +51,18 @@ public class RebelService {
         return returnedRebelDto;
     }
 
-    public String reportRebel(ReportDto report) {
-
-        var rebel = new Rebel();
-        var potentialTraitor = new Rebel();
-
-        if (isReliableRebel(rebel.getId())) {
-
-        }
-        return repository.reportRebel(report);
+    public void reportRebel(ReportDto reportDto) {
+        repository.reportRebel(reportDto);
     }
 
     public boolean isReliableRebel(UUID id) {
-        boolean response = false;
 
         for (Rebel rebel : repository.getAll()) {
             if (rebel.getId().equals(id)) {
-                response = true;
+                return true;
             }
         }
-        return response;
+        return false;
     }
 
     public boolean isAlreadyTraitor(UUID id) {
@@ -135,5 +125,9 @@ public class RebelService {
             rebel.getInventory().remove(item);
         }
         return rebel;
+    }
+
+    public boolean isUniqueReport(ReportDto reportDto) {
+       return repository.isUniqueReport(reportDto);
     }
 }

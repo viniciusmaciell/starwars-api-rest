@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -20,24 +18,24 @@ public class Rebel {
     private Integer confidenceLevel;
     private Location location;
     private LocalDate registrationDate;
-    private List<Item> inventory;
-    private List<UUID> complaintsId;
+    private List<Item> inventory = new ArrayList<>();
+    private Set<UUID> reportedRebelsId = new HashSet<>();
 
     public Rebel() {
         this.confidenceLevel = 2;
     }
 
-    public void report() {
+    public void decrementConfidenceLevel() {
         confidenceLevel--;
     }
 
-    public void registerComplaint(UUID id) {
-        complaintsId.add(id);
+    public void reportRebel(UUID id) {
+     reportedRebelsId.add(id);
     }
 
     public boolean hasAlreadyBeenReported(UUID id) {
         boolean response = false;
-        for (UUID complaint : complaintsId) {
+        for (UUID complaint : reportedRebelsId) {
             if (complaint.equals(id)) {
                 response = true;
 

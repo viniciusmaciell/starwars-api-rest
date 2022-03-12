@@ -53,7 +53,7 @@ public class RebelRepository {
         return rebels;
     }
 
-    public List<Rebel> getAllTraitors(){
+    public List<Rebel> getAllTraitors() {
         return traidorsRebels;
     }
 
@@ -79,11 +79,11 @@ public class RebelRepository {
         return rebelToReturn;
     }
 
-    public String reportRebel(ReportDto report) {
-        Rebel potentialTraidor = findById(report.getTraitorId());
-        potentialTraidor.report();
-        return "Your report was accepted";
-    }
+//    public String reportRebel(ReportDto report) {
+//        Rebel potentialTraidor = findById(report.getTraitorId());
+//        potentialTraidor.report();
+//        return "Your report was accepted";
+//    }
 
     public List<Deal> getAllOpenDeals() {
         return openOffers;
@@ -102,7 +102,7 @@ public class RebelRepository {
                 .findFirst().get();
     }
 
-    public Rebel updateInventory(Rebel rebel){
+    public Rebel updateInventory(Rebel rebel) {
         Rebel rebelToReturn = new Rebel();
         for (Rebel currentRebel : rebels) {
             if (currentRebel.getId().equals(rebel.getId())) {
@@ -116,6 +116,28 @@ public class RebelRepository {
 
     public void removeDeal(Deal deal) {
         openOffers.remove(getDealById(deal.getId()));
+    }
+
+    public void reportRebel(ReportDto report) {
+        for (Rebel rebel : rebels) {
+
+            if (rebel.getId().equals(report.getRebelId())) {
+                rebel.reportRebel(report.getTraitorId());
+                System.out.println("adicionou reporte");
+
+            }
+            if (rebel.getId().equals(report.getTraitorId())) {
+                rebel.decrementConfidenceLevel();
+            }
+        }
+    }
+
+    public boolean isUniqueReport(ReportDto reportDto) {
+        var rebel = findById(reportDto.getRebelId());
+        if (rebel.hasAlreadyBeenReported(reportDto.getTraitorId()))
+            return true;
+
+        return false;
     }
 }
 

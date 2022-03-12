@@ -1,16 +1,14 @@
 package br.com.letscode.api.starwars.dtos;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
 @Getter
-@Setter
-@NoArgsConstructor
+@RequiredArgsConstructor
+//@NoArgsConstructor
 public class ReportDto {
-    private UUID id;
+    private UUID rebelId;
     private UUID traitorId;
-
 }

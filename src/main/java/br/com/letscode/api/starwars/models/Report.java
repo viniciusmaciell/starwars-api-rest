@@ -10,7 +10,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 public class Report {
-    private UUID id;
+    private UUID rebelId;
     private UUID traitorId;
 
 }

@@ -28,17 +28,28 @@ public class RebelController {
     }
 
     @PostMapping("/report")
-    public ResponseEntity<Object> reportRebel(@RequestBody ReportDto report) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.reportRebel(report));
+    public ResponseEntity<String> reportRebel(@RequestBody ReportDto reportDto) {
+
+        if (!service.isReliableRebel(reportDto.getRebelId())) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You are not a registered rebel.");
+        }
+        else if (!service.isUniqueReport(reportDto)) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You have already report this rebel.");
+        }
+//        else if (service.)
+        else {
+            service.reportRebel(reportDto);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Your report was accepted.");
+        }
     }
 
     @PostMapping("/propose-deal")
-    public ResponseEntity<ReturnDealDto> proposeADeal(@RequestBody DealDto exchangeDto){
+    public ResponseEntity<ReturnDealDto> proposeADeal(@RequestBody DealDto exchangeDto) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.addOffer(exchangeDto));
     }
 
     @PostMapping("/make-deal")
-    public ResponseEntity<Object> makeADeal(@RequestBody CounterpartyDto counterpartyDto){
+    public ResponseEntity<Object> makeADeal(@RequestBody CounterpartyDto counterpartyDto) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.makeADeal(counterpartyDto));
     }
 
@@ -48,7 +59,7 @@ public class RebelController {
     }
 
     @GetMapping("/open-deals")
-    public List<Deal> getAllOpenDeals(){
+    public List<Deal> getAllOpenDeals() {
         return service.getAllOpenDeals();
     }
 
