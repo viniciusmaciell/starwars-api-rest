@@ -68,15 +68,6 @@ public class RebelService {
         return returnDealDto;
     }
 
-    private void validateDeal(UUID rebelId, List<Item> items) {
-        Rebel rebel = repository.findById(rebelId);
-        if(rebel.getConfidenceLevel() == 0){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You're a traitor. You cant make a deal.");
-        }
-        if(!rebel.getInventory().containsAll(items)){
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You don't have the items you offered.");
-        }
-    }
 
     public Object makeADeal(CounterpartyDto counterpartyDto) {
         Deal deal = repository.getDealById(counterpartyDto.getDealId());
@@ -88,6 +79,16 @@ public class RebelService {
         repository.updateInventory(party);
         repository.removeDeal(deal);
         return counterparty;
+    }
+
+    private void validateDeal(UUID rebelId, List<Item> items) {
+        Rebel rebel = repository.findById(rebelId);
+        if(rebel.getConfidenceLevel() == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You're a traitor. You cant make a deal.");
+        }
+        if(!rebel.hasItems(items)){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"You don't have the demanded items.");
+        }
     }
 
     private void exchangeItems(Deal deal, Rebel party, Rebel counterparty) {
