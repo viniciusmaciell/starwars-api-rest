@@ -27,4 +27,8 @@ public class Rebel {
     public void report() {
         confidenceLevel--;
     }
+
+    public boolean hasItems(List<Item> items) {
+        return this.getInventory().containsAll(items);
+    }
 }
