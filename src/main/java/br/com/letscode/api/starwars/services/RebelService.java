@@ -71,13 +71,20 @@ public class RebelService {
         Deal deal = repository.getDealById(counterpartyDto.getDealId());
         Rebel party = repository.findById(deal.getPartyId());
         Rebel counterparty = repository.findById(counterpartyDto.getCounterpartyId());
+
         counterparty.isReliable();
         counterparty.hasItems(deal.getDemand());
+
         exchangeItems(deal, party, counterparty);
+
         counterparty = repository.updateInventory(counterparty);
         repository.updateInventory(party);
         repository.removeDeal(deal);
-        return counterparty;
+
+        RebelReturnDto counterpartyReturnDto = new RebelReturnDto();
+        BeanUtils.copyProperties(counterparty, counterpartyReturnDto);
+
+        return counterpartyReturnDto;
     }
 
     private void validateDeal(Deal deal) {
