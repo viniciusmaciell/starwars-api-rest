@@ -3,6 +3,8 @@ package br.com.letscode.api.starwars.models;
 import br.com.letscode.api.starwars.enums.GenderEnum;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +30,9 @@ public class Rebel {
         confidenceLevel--;
     }
 
-    public boolean hasItems(List<Item> items) {
-        return this.getInventory().containsAll(items);
+    public void hasItems(List<Item> items) {
+        if(!this.getInventory().containsAll(items)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"You don't have the items to make the deal.");
+        }
     }
 }
