@@ -35,4 +35,10 @@ public class Rebel {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"You don't have the items to make the deal.");
         }
     }
+
+    public void isNotTraitor(){
+        if(this.confidenceLevel <= 0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"You're a traitor. You cant make a deal.");
+        }
+    }
 }
