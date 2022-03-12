@@ -24,20 +24,21 @@ public class RebelController {
     @PostMapping
     public ResponseEntity<Object> saveRebel(@RequestBody RebelDto rebelDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveRebel(rebelDto));
-
     }
 
     @PostMapping("/report")
     public ResponseEntity<String> reportRebel(@RequestBody ReportDto reportDto) {
-
-        if (!service.isReliableRebel(reportDto.getRebelId())) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You are not a registered rebel.");
-        }
-        if (!service.isUniqueReport(reportDto)) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You have already report this rebel.");
+        if (!service.isARebel(reportDto.getRebelId())){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You are not a validated rebel.");
         }
         if (service.isAlreadyTraitor(reportDto.getTraitorId())) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This rebel is already a traitor.");
+        }
+        if (!service.isARebel(reportDto.getTraitorId())){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This is not a potential traitor.");
+        }
+        if (service.isNotUniqueReport(reportDto)) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You have already report this rebel.");
         }
         service.reportRebel(reportDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Your report was accepted.");

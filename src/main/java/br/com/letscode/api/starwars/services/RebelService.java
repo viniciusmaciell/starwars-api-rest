@@ -55,18 +55,26 @@ public class RebelService {
         repository.reportRebel(reportDto);
     }
 
-    public boolean isReliableRebel(UUID id) {
-
-        for (Rebel rebel : repository.getAll()) {
-            if (rebel.getId().equals(id)) {
-                return true;
+    public boolean isARebel(UUID id) {
+        if (!repository.getAll().isEmpty()) {
+            for (Rebel rebel : repository.getAll()) {
+                if (rebel.getId().equals(id)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     public boolean isAlreadyTraitor(UUID id) {
-        return repository.isAlreadyTraitor(id);
+        if (!repository.getAllTraitors().isEmpty()) {
+            for (Rebel rebel : repository.getAllTraitors()) {
+                if (rebel.getId().equals(id)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public List<Deal> getAllOpenDeals() {
@@ -120,7 +128,7 @@ public class RebelService {
         return rebel;
     }
 
-    public boolean isUniqueReport(ReportDto reportDto) {
+    public boolean isNotUniqueReport(ReportDto reportDto) {
         return repository.isUniqueReport(reportDto);
     }
 }

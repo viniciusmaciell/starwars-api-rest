@@ -22,25 +22,19 @@ public class Rebel {
     private Set<UUID> reportedRebelsId = new HashSet<>();
 
     public Rebel() {
-        this.confidenceLevel = 2;
+        this.confidenceLevel = 3;
     }
 
     public void decrementConfidenceLevel() {
         confidenceLevel--;
     }
 
-    public void reportRebel(UUID id) {
-     reportedRebelsId.add(id);
+    public void report(UUID id) {
+        reportedRebelsId.add(id);
     }
 
     public boolean hasAlreadyBeenReported(UUID id) {
-        boolean response = false;
-        for (UUID complaint : reportedRebelsId) {
-            if (complaint.equals(id)) {
-                response = true;
-
-            }
-        }
-        return response;
+        return reportedRebelsId.contains(id);
     }
+
 }
