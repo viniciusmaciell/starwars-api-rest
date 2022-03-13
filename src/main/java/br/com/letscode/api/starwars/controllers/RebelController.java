@@ -58,7 +58,7 @@ public class RebelController {
     }
 
     @PostMapping("/propose-deal")
-    public ResponseEntity<ReturnDealDto> proposeADeal(@Valid @RequestBody DealDto exchangeDto) {
+    public ResponseEntity<ReturnDealDto> proposeADeal(@RequestBody DealDto exchangeDto) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.addOffer(exchangeDto));
     }
 
