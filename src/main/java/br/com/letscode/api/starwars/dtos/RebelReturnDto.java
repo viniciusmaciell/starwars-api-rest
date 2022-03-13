@@ -1,8 +1,9 @@
 package br.com.letscode.api.starwars.dtos;
 
-import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.utils.GenderEnum;
+import br.com.letscode.api.starwars.utils.ItemEnum;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,10 +21,10 @@ public class RebelReturnDto {
 
     private GenderEnum gender;
     private Location location;
-//    @JsonProperty("confidence_level")
+    @JsonProperty("confidence_level")
     private Integer confidenceLevel;
-//    @JsonProperty("registration_date")
+    @JsonProperty("registration_date")
     private LocalDate registrationDate;
-    private List<Item> inventory;
+    private List<ItemEnum> inventory;
 
 }
