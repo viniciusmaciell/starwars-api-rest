@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,11 +27,9 @@ public class RebelService {
 
     public List<RebelReturnDto> getAll() {
         var rebels = repository.getAll();
-        System.out.println(rebels);
         return rebels.stream().map(rebel -> {
             var rebelDto = new RebelReturnDto();
             BeanUtils.copyProperties(rebel, rebelDto);
-            System.out.println(rebelDto);
             return rebelDto;
         }).collect(Collectors.toList());
     }
@@ -142,7 +139,7 @@ public class RebelService {
     private boolean isADeal(UUID dealId) {
         if (!repository.getAll().isEmpty()) {
             for (Deal deal : repository.getAllOpenDeals()) {
-                if (deal.getId().equals(dealId)) {
+                if (deal.getDealId().equals(dealId)) {
                     return true;
                 }
             }

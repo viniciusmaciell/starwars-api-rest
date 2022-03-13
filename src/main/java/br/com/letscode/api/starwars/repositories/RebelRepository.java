@@ -59,7 +59,7 @@ public class RebelRepository {
     }
 
     public Deal addOffer(Deal newOffer) {
-        newOffer.setId(UUID.randomUUID());
+        newOffer.setDealId(UUID.randomUUID());
         openOffers.add(newOffer);
         return newOffer;
     }
@@ -67,7 +67,7 @@ public class RebelRepository {
     public Deal getDealById(UUID id) {
         return openOffers.stream()
                 .filter(offer ->
-                        offer.getId().equals(id))
+                        offer.getDealId().equals(id))
                 .findFirst().get();
     }
 
@@ -84,7 +84,7 @@ public class RebelRepository {
     }
 
     public void removeDeal(Deal deal) {
-        openOffers.remove(getDealById(deal.getId()));
+        openOffers.remove(getDealById(deal.getDealId()));
     }
 
     public void reportRebel(ReportDto report) {

@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Deal {
 
-    private UUID id;
+    private UUID dealId;
     private UUID partyId;
     private List<ItemEnum> offer;
     private List<ItemEnum> demand;

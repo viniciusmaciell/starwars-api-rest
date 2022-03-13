@@ -1,6 +1,6 @@
 package br.com.letscode.api.starwars.dtos;
 
-import br.com.letscode.api.starwars.models.Item;
+import br.com.letscode.api.starwars.utils.ItemEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +10,8 @@ import java.util.UUID;
 @Getter
 @Setter
 public class ReturnDealDto {
-    private UUID id;
+    private UUID dealId;
     private UUID partyId;
-    private List<Item> offer;
-    private List<Item> demand;
+    private List<ItemEnum> offer;
+    private List<ItemEnum> demand;
 }
