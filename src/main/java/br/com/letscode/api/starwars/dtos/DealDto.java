@@ -1,6 +1,6 @@
 package br.com.letscode.api.starwars.dtos;
 
-import br.com.letscode.api.starwars.models.Item;
+import br.com.letscode.api.starwars.utils.ItemEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,9 +20,9 @@ public class DealDto {
     private UUID partyId;
     @NotNull
     @Valid
-    private List<Item> offer;
+    private List<ItemEnum> offer;
     @NotNull
     @Valid
-    private List<Item> demand;
+    private List<ItemEnum> demand;
 
 }
