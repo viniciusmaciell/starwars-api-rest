@@ -1,6 +1,7 @@
 package br.com.letscode.api.starwars.models;
 
 import br.com.letscode.api.starwars.utils.GenderEnum;
+import br.com.letscode.api.starwars.utils.ItemEnum;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class Rebel {
     private Integer confidenceLevel;
     private Location location;
     private LocalDate registrationDate;
-    private List<Item> inventory = new ArrayList<>();
+    private List<ItemEnum> inventory = new ArrayList<>();
     private Set<UUID> reportedRebelsId = new HashSet<>();
 
     public Rebel() {
@@ -39,7 +40,7 @@ public class Rebel {
         return reportedRebelsId.contains(id);
     }
 
-    public void hasItems(List<Item> items) {
+    public void hasItems(List<ItemEnum> items) {
         if(!this.getInventory().containsAll(items)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"You don't have the items to make the deal.");
         }
