@@ -23,13 +23,12 @@ public class Deal {
         Integer pointsOffer = 0;
         Integer pointsDemand = 0;
         for (Item item : offer) {
-            pointsOffer = item.getScore();
+            pointsOffer += item.getScore();
         }
         for (Item item : demand) {
-            pointsDemand = item.getScore();
+            pointsDemand += item.getScore();
         }
-//        if(!pointsOffer.equals(pointsDemand))
-        if (pointsOffer != pointsDemand) {
+        if(!pointsOffer.equals(pointsDemand)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Supply and demand must have the same score.");
         }
     }
