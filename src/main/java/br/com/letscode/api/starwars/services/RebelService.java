@@ -84,33 +84,40 @@ public class RebelService {
     public ReturnDealDto addOffer(DealDto dealDto) {
         Deal deal = new Deal();
         BeanUtils.copyProperties(dealDto, deal);
-        validateDeal(deal.getPartyId(), deal.getOffer());
+        validateDeal(deal);
         Deal savedOffer = repository.addOffer(deal);
         ReturnDealDto returnDealDto = new ReturnDealDto();
         BeanUtils.copyProperties(savedOffer, returnDealDto);
         return returnDealDto;
     }
 
-    private void validateDeal(UUID rebelId, List<Item> items) {
-        Rebel rebel = repository.findById(rebelId);
-        if (rebel.getConfidenceLevel() == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You're a traitor. You cant make a deal.");
-        }
-        if (!rebel.getInventory().containsAll(items)) {
-            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You don't have the items you offered.");
-        }
-    }
 
     public Object makeADeal(CounterpartyDto counterpartyDto) {
         Deal deal = repository.getDealById(counterpartyDto.getDealId());
         Rebel party = repository.findById(deal.getPartyId());
         Rebel counterparty = repository.findById(counterpartyDto.getCounterpartyId());
-        validateDeal(counterparty.getId(), deal.getDemand());
+
+        counterparty.isReliable();
+        counterparty.hasItems(deal.getDemand());
+
         exchangeItems(deal, party, counterparty);
+
         counterparty = repository.updateInventory(counterparty);
         repository.updateInventory(party);
         repository.removeDeal(deal);
-        return counterparty;
+
+        RebelReturnDto counterpartyReturnDto = new RebelReturnDto();
+        BeanUtils.copyProperties(counterparty, counterpartyReturnDto);
+
+        return counterpartyReturnDto;
+    }
+
+    private void validateDeal(Deal deal) {
+        deal.pointsMatch();
+
+        Rebel rebel = repository.findById(deal.getPartyId());
+        rebel.isReliable();
+        rebel.hasItems(deal.getOffer());
     }
 
     private void exchangeItems(Deal deal, Rebel party, Rebel counterparty) {
