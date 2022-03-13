@@ -58,12 +58,12 @@ public class RebelController {
     }
 
     @PostMapping("/propose-deal")
-    public ResponseEntity<ReturnDealDto> proposeADeal( @Valid @RequestBody DealDto exchangeDto) {
+    public ResponseEntity<ReturnDealDto> proposeADeal(@Valid @RequestBody DealDto exchangeDto) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.addOffer(exchangeDto));
     }
 
     @PostMapping("/make-deal")
-    public ResponseEntity<Object> makeADeal(@RequestBody CounterpartyDto counterpartyDto) {
+    public ResponseEntity<Object> makeADeal(@Valid @RequestBody CounterpartyDto counterpartyDto) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.makeADeal(counterpartyDto));
     }
 
