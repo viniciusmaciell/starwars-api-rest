@@ -1,10 +1,12 @@
 package br.com.letscode.api.starwars.dtos;
 
-import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.utils.GenderEnum;
+import br.com.letscode.api.starwars.utils.ItemEnum;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Getter
+@Setter
 public class RebelDto {
     @NotBlank
     private String name;
@@ -24,6 +27,7 @@ public class RebelDto {
     @NotNull
     @Valid
     private Location location;
-
-    private List<Item> inventory;
+    @NotNull
+    @Valid
+    private List<ItemEnum> inventory;
 }
