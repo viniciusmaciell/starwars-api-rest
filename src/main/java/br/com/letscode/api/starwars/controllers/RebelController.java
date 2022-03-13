@@ -1,8 +1,6 @@
 package br.com.letscode.api.starwars.controllers;
 
 import br.com.letscode.api.starwars.dtos.*;
-import br.com.letscode.api.starwars.models.Deal;
-import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.services.RebelService;
 import br.com.letscode.api.starwars.utils.ReportMessageEnum;
 import org.springframework.http.HttpStatus;
@@ -36,50 +34,46 @@ public class RebelController {
         }
         if (service.isAlreadyTraitor(reportDto.getTraitorId())) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-//                    .body("This rebel is already a traitor.");
                     .body(ReportMessageEnum.ALREADY_TRAITOR.toString());
         }
         if (!service.isARebel(reportDto.getTraitorId())) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
                     .body(ReportMessageEnum.NOT_POTENTIAL_TRAITOR.toString());
-//                    .body("This is not a potential traitor.");
         }
         if (service.isNotUniqueReport(reportDto)) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-//                    .body("You have already report this rebel.");
                     .body(ReportMessageEnum.ALREADY_REPORTED.toString());
 
         }
         service.reportRebel(reportDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
-//                .body("Your report was accepted.");
                 .body(ReportMessageEnum.REPORT_ACCEPTED.toString());
 
     }
 
     @PostMapping("/propose-deal")
-    public ResponseEntity<ReturnDealDto> proposeADeal(@RequestBody DealDto exchangeDto) {
+    public ResponseEntity<ReturnDealDto> proposeADeal(@Valid @RequestBody DealDto exchangeDto) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.addOffer(exchangeDto));
     }
 
     @PostMapping("/make-deal")
-    public ResponseEntity<Object> makeADeal(@Valid @RequestBody CounterpartyDto counterpartyDto) {
+    public ResponseEntity<RebelReturnDto> makeADeal(@Valid @RequestBody CounterpartyDto counterpartyDto) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.makeADeal(counterpartyDto));
     }
 
     @GetMapping("/list")
-    public List<Rebel> getAll() {
+    public List<RebelReturnDto> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/open-deals")
-    public List<Deal> getAllOpenDeals() {
+    public List<ReturnDealDto> getAllOpenDeals() {
         return service.getAllOpenDeals();
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<RebelReturnDto> setCurrentLocation(@PathVariable("id") UUID id,
-                                                             @RequestBody CurrentLocationDto currentLocationDto) {
+                                                             @Valid @RequestBody CurrentLocationDto currentLocationDto) {
         return ResponseEntity.status(HttpStatus.OK).body(service.setRebelCurrentLocation(id, currentLocationDto));
 
     }
