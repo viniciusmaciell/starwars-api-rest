@@ -9,6 +9,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 //@NoArgsConstructor
 public class ReportDto {
+
     private UUID rebelId;
     private UUID traitorId;
 }

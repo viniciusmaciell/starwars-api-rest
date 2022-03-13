@@ -7,11 +7,11 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class Location {
-    @NotNull
+//    @NotNull
     private Integer latitude;
-    @NotNull
+//    @NotNull
     private Integer longitude;
-    @NotBlank
+//    @NotBlank
     private String baseName;
 
     public Location() {

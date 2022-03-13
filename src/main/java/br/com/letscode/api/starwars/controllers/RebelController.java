@@ -24,27 +24,36 @@ public class RebelController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveRebel( @Valid @RequestBody RebelDto rebelDto) {
+    public ResponseEntity<Object> saveRebel(@Valid @RequestBody RebelDto rebelDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveRebel(rebelDto));
     }
 
     @PostMapping("/report")
-    public ResponseEntity<String> reportRebel(@RequestBody ReportDto reportDto) {
-        if (!service.isARebel(reportDto.getRebelId())){
+    public ResponseEntity<String> reportRebel(@Valid @RequestBody ReportDto reportDto) {
+        if (!service.isARebel(reportDto.getRebelId())) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
                     .body(ReportMessageEnum.NOT_VALIDATED.toString());
         }
         if (service.isAlreadyTraitor(reportDto.getTraitorId())) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This rebel is already a traitor.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+//                    .body("This rebel is already a traitor.");
+                    .body(ReportMessageEnum.ALREADY_TRAITOR.toString());
         }
-        if (!service.isARebel(reportDto.getTraitorId())){
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("This is not a potential traitor.");
+        if (!service.isARebel(reportDto.getTraitorId())) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+                    .body(ReportMessageEnum.NOT_POTENTIAL_TRAITOR.toString());
+//                    .body("This is not a potential traitor.");
         }
         if (service.isNotUniqueReport(reportDto)) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("You have already report this rebel.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+//                    .body("You have already report this rebel.");
+                    .body(ReportMessageEnum.ALREADY_REPORTED.toString());
+
         }
         service.reportRebel(reportDto);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Your report was accepted.");
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+//                .body("Your report was accepted.");
+                .body(ReportMessageEnum.REPORT_ACCEPTED.toString());
 
     }
 

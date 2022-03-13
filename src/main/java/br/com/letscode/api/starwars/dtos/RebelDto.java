@@ -23,7 +23,7 @@ public class RebelDto {
     private GenderEnum gender;
     @NotNull
     @Valid
-    private Location location;
+    private LocationDto location;
 
     private List<Item> inventory;
 }
