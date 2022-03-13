@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,8 +16,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DealDto {
 
+    @NotNull
     private UUID partyId;
+    @NotNull
+    @Valid
     private List<Item> offer;
+    @NotNull
+    @Valid
     private List<Item> demand;
 
 }

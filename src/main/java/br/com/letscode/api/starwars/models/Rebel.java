@@ -24,7 +24,7 @@ public class Rebel {
     private Set<UUID> reportedRebelsId = new HashSet<>();
 
     public Rebel() {
-        this.confidenceLevel = 0;
+        this.confidenceLevel = 3;
     }
 
     public void decrementConfidenceLevel() {
