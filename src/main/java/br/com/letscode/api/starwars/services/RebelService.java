@@ -2,18 +2,20 @@ package br.com.letscode.api.starwars.services;
 
 import br.com.letscode.api.starwars.dtos.*;
 import br.com.letscode.api.starwars.models.Deal;
-import br.com.letscode.api.starwars.models.Item;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.repositories.RebelRepository;
+import br.com.letscode.api.starwars.utils.ItemEnum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class RebelService {
@@ -24,8 +26,15 @@ public class RebelService {
         this.repository = repository;
     }
 
-    public List<Rebel> getAll() {
-        return repository.getAll();
+    public List<RebelReturnDto> getAll() {
+        var rebels = repository.getAll();
+        System.out.println(rebels);
+        return rebels.stream().map(rebel -> {
+            var rebelDto = new RebelReturnDto();
+            BeanUtils.copyProperties(rebel, rebelDto);
+            System.out.println(rebelDto);
+            return rebelDto;
+        }).collect(Collectors.toList());
     }
 
     public RebelReturnDto saveRebel(RebelDto rebelDto) {
@@ -40,6 +49,10 @@ public class RebelService {
     }
 
     public RebelReturnDto setRebelCurrentLocation(UUID id, CurrentLocationDto currentLocationDto) {
+
+        if(!isARebel(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Rebel not found.");
+        }
 
         Location location = new Location();
         BeanUtils.copyProperties(currentLocationDto, location);
@@ -77,11 +90,19 @@ public class RebelService {
         return false;
     }
 
-    public List<Deal> getAllOpenDeals() {
-        return repository.getAllOpenDeals();
+    public List<ReturnDealDto> getAllOpenDeals() {
+        var deals = repository.getAllOpenDeals();
+        return deals.stream().map(deal -> {
+            var dealDto = new ReturnDealDto();
+            BeanUtils.copyProperties(deal, dealDto);
+            return dealDto;
+        }).collect(Collectors.toList());
     }
 
     public ReturnDealDto addOffer(DealDto dealDto) {
+        if(!isARebel(dealDto.getPartyId())){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Rebel not found.");
+        }
         Deal deal = new Deal();
         BeanUtils.copyProperties(dealDto, deal);
         validateDeal(deal);
@@ -92,7 +113,13 @@ public class RebelService {
     }
 
 
-    public Object makeADeal(CounterpartyDto counterpartyDto) {
+    public RebelReturnDto makeADeal(CounterpartyDto counterpartyDto) {
+        if(!isARebel(counterpartyDto.getCounterpartyId())){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Rebel not found.");
+        }
+        if(!isADeal(counterpartyDto.getDealId())){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Deal not found.");
+        }
         Deal deal = repository.getDealById(counterpartyDto.getDealId());
         Rebel party = repository.findById(deal.getPartyId());
         Rebel counterparty = repository.findById(counterpartyDto.getCounterpartyId());
@@ -112,6 +139,17 @@ public class RebelService {
         return counterpartyReturnDto;
     }
 
+    private boolean isADeal(UUID dealId) {
+        if (!repository.getAll().isEmpty()) {
+            for (Deal deal : repository.getAllOpenDeals()) {
+                if (deal.getId().equals(dealId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void validateDeal(Deal deal) {
         deal.pointsMatch();
 
@@ -121,15 +159,15 @@ public class RebelService {
     }
 
     private void exchangeItems(Deal deal, Rebel party, Rebel counterparty) {
-        List<Item> offeredByParty = deal.getOffer();
-        List<Item> demandedByParty = deal.getDemand();
+        List<ItemEnum> offeredByParty = deal.getOffer();
+        List<ItemEnum> demandedByParty = deal.getDemand();
         updateInventory(party, offeredByParty, demandedByParty);
         updateInventory(counterparty, demandedByParty, offeredByParty);
     }
 
-    private Rebel updateInventory(Rebel rebel, List<Item> itemsToRemove, List<Item> itemsToAdd) {
+    private Rebel updateInventory(Rebel rebel, List<ItemEnum> itemsToRemove, List<ItemEnum> itemsToAdd) {
         rebel.getInventory().addAll(itemsToAdd);
-        for (Item item : itemsToRemove) {
+        for (ItemEnum item : itemsToRemove) {
             rebel.getInventory().remove(item);
         }
         return rebel;
