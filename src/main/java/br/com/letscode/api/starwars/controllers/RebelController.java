@@ -65,7 +65,7 @@ public class RebelController {
         return service.getAllOpenDeals();
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<RebelReturnDto> setCurrentLocation(@PathVariable("id") UUID id,
                                                              @RequestBody CurrentLocationDto currentLocationDto) {
         return ResponseEntity.status(HttpStatus.OK).body(service.setRebelCurrentLocation(id, currentLocationDto));
