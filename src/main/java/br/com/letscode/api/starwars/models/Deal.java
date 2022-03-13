@@ -1,5 +1,6 @@
 package br.com.letscode.api.starwars.models;
 
+import br.com.letscode.api.starwars.utils.ItemEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -16,17 +17,17 @@ public class Deal {
 
     private UUID id;
     private UUID partyId;
-    private List<Item> offer;
-    private List<Item> demand;
+    private List<ItemEnum> offer;
+    private List<ItemEnum> demand;
 
     public void pointsMatch() {
         Integer pointsOffer = 0;
         Integer pointsDemand = 0;
-        for (Item item : offer) {
-            pointsOffer += item.getScore();
+        for (ItemEnum item : offer) {
+            pointsOffer += Integer.valueOf(item.getValue());
         }
-        for (Item item : demand) {
-            pointsDemand += item.getScore();
+        for (ItemEnum item : demand) {
+            pointsDemand += Integer.valueOf(item.getValue());
         }
         if(!pointsOffer.equals(pointsDemand)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Supply and demand must have the same score.");
