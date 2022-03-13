@@ -19,30 +19,6 @@ public class RebelRepository {
 
     private static List<Deal> openOffers = new ArrayList<>();
 
-//    static {
-//        openOffers.addAll(
-//                Arrays.asList(
-//                        new Deal(UUID.randomUUID(),
-//                                Arrays.asList(new Item(UUID.randomUUID(), ItemEnum.WATER, Integer.valueOf("2")),
-//                                            new Item(UUID.randomUUID(), ItemEnum.AMMUNITION, Integer.valueOf("3"))),
-//                                Arrays.asList(new Item(UUID.randomUUID(), ItemEnum.FOOD, Integer.valueOf("1")),
-//                                        new Item(UUID.randomUUID(), ItemEnum.WEAPON, Integer.valueOf("4"))))));
-//
-//    }
-
-//    static {
-//
-//        rebels.addAll(Arrays.asList(new Rebel("Chuew",
-//                45,
-//                GenderEnum.MALE,
-//                new Location(-50, 45, "bEt")
-//        ), new Rebel("Chue2",
-//                45,
-//                GenderEnum.MALE,
-//                new Location(-50, 45, "bEt")
-//        )));
-//    }
-
     public Rebel save(Rebel rebel) {
         rebel.setId(UUID.randomUUID());
         rebels.add(rebel);
@@ -62,7 +38,6 @@ public class RebelRepository {
                 .filter(rebel ->
                         rebel.getId().equals(id))
                 .findFirst().get();
-        System.out.println(returnedRebel);
         return returnedRebel;
     }
 
