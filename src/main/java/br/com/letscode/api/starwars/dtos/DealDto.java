@@ -4,6 +4,7 @@ import br.com.letscode.api.starwars.utils.ItemEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@ToString
 public class DealDto {
 
     @NotNull
