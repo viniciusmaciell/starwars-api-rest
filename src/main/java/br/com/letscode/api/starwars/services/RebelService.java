@@ -117,13 +117,13 @@ public class RebelService {
         if(!isADeal(counterpartyDto.getDealId())){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Deal not found.");
         }
-        Deal deal = repository.getDealById(counterpartyDto.getDealId());
-        Rebel party = repository.findById(deal.getPartyId());
         Rebel counterparty = repository.findById(counterpartyDto.getCounterpartyId());
-
         counterparty.isReliable();
+
+        Deal deal = repository.getDealById(counterpartyDto.getDealId());
         counterparty.hasItems(deal.getDemand());
 
+        Rebel party = repository.findById(deal.getPartyId());
         exchangeItems(deal, party, counterparty);
 
         counterparty = repository.updateInventory(counterparty);
@@ -137,7 +137,7 @@ public class RebelService {
     }
 
     private boolean isADeal(UUID dealId) {
-        if (!repository.getAll().isEmpty()) {
+        if (!repository.getAllOpenDeals().isEmpty()) {
             for (Deal deal : repository.getAllOpenDeals()) {
                 if (deal.getDealId().equals(dealId)) {
                     return true;
