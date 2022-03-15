@@ -6,6 +6,7 @@ import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
 import br.com.letscode.api.starwars.repositories.RebelRepository;
 import br.com.letscode.api.starwars.utils.ItemEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class RebelService {
 
@@ -26,6 +28,7 @@ public class RebelService {
     }
 
     public List<RebelReturnDto> getAll() {
+        log.info("Getting all the rebels...");
         var rebels = repository.getAll();
         return rebels.stream().map(rebel -> {
             var rebelDto = new RebelReturnDto();
@@ -35,6 +38,7 @@ public class RebelService {
     }
 
     public RebelReturnDto saveRebel(RebelDto rebelDto) {
+        log.info("Saving rebel {}", rebelDto);
         var rebel = new Rebel();
         BeanUtils.copyProperties(rebelDto, rebel);
         rebel.setRegistrationDate(LocalDate.now());
@@ -62,6 +66,7 @@ public class RebelService {
     }
 
     public void reportRebel(ReportDto reportDto) {
+        log.info("Reporting rebel {}", reportDto);
         repository.reportRebel(reportDto);
     }
 
@@ -88,6 +93,7 @@ public class RebelService {
     }
 
     public List<ReturnDealDto> getAllOpenDeals() {
+        log.info("Getting all the open deals...");
         var deals = repository.getAllOpenDeals();
         return deals.stream().map(deal -> {
             var dealDto = new ReturnDealDto();
@@ -96,7 +102,8 @@ public class RebelService {
         }).collect(Collectors.toList());
     }
 
-    public ReturnDealDto addOffer(DealDto dealDto) {
+    public ReturnDealDto saveDeal(DealDto dealDto) {
+        log.info("Saving deal {}", dealDto);
         if(!isARebel(dealDto.getPartyId())){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Rebel not found.");
         }
@@ -110,7 +117,8 @@ public class RebelService {
     }
 
 
-    public RebelReturnDto makeADeal(CounterpartyDto counterpartyDto) {
+    public RebelReturnDto executeDeal(CounterpartyDto counterpartyDto) {
+        log.info("Executing deal {}", counterpartyDto.getDealId());
         if(!isARebel(counterpartyDto.getCounterpartyId())){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Rebel not found.");
         }

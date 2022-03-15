@@ -53,12 +53,12 @@ public class RebelController {
 
     @PostMapping("/propose-deal")
     public ResponseEntity<ReturnDealDto> proposeADeal(@Valid @RequestBody DealDto exchangeDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.addOffer(exchangeDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveDeal(exchangeDto));
     }
 
     @PostMapping("/make-deal")
     public ResponseEntity<RebelReturnDto> makeADeal(@Valid @RequestBody CounterpartyDto counterpartyDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.makeADeal(counterpartyDto));
+        return ResponseEntity.status(HttpStatus.OK).body(service.executeDeal(counterpartyDto));
     }
 
     @GetMapping("/list")
