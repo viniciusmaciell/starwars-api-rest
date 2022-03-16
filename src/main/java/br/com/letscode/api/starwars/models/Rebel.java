@@ -25,7 +25,7 @@ public class Rebel {
     private Set<UUID> reportedRebelsId = new HashSet<>();
 
     public Rebel() {
-        this.confidenceLevel = 3;
+        this.confidenceLevel = 1;
     }
 
     public void decrementConfidenceLevel() {
@@ -48,7 +48,7 @@ public class Rebel {
 
     public void isReliable(){
         if(this.confidenceLevel <= 0){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"You're a traitor. You cant make a deal.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"You're a traitor. You can't make a deal.");
         }
     }
 }
