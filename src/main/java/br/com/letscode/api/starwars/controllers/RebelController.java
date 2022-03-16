@@ -56,8 +56,8 @@ public class RebelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveDeal(exchangeDto));
     }
 
-    @PostMapping("/make-deal")
-    public ResponseEntity<RebelReturnDto> makeADeal(@Valid @RequestBody CounterpartyDto counterpartyDto) {
+    @PostMapping("/execute-deal")
+    public ResponseEntity<RebelReturnDto> executeDeal(@Valid @RequestBody CounterpartyDto counterpartyDto) {
         return ResponseEntity.status(HttpStatus.OK).body(service.executeDeal(counterpartyDto));
     }
 
