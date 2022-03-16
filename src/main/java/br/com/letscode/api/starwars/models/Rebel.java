@@ -4,6 +4,7 @@ import br.com.letscode.api.starwars.utils.GenderEnum;
 import br.com.letscode.api.starwars.utils.ItemEnum;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -12,6 +13,7 @@ import java.util.*;
 
 @Getter
 @Setter
+@ToString
 public class Rebel {
 
     private UUID id;
