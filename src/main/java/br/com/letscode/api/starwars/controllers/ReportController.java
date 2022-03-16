@@ -1,6 +1,7 @@
 package br.com.letscode.api.starwars.controllers;
 
 import br.com.letscode.api.starwars.dtos.ItemsAmountDto;
+import br.com.letscode.api.starwars.dtos.LostPointsDto;
 import br.com.letscode.api.starwars.services.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class ReportController {
     }
 
     @GetMapping("/traitors/missed-points")
-    public ResponseEntity<Object> getAllMissedPoints() {
+    public ResponseEntity<LostPointsDto> getAllMissedPoints() {
         return ResponseEntity.status(HttpStatus.OK).body(service.getAllLostPointsFromTraitors());
     }
 
