@@ -87,7 +87,7 @@ public class RebelRepository {
         openOffers.remove(getDealById(deal.getDealId()));
     }
 
-    public void reportRebel(ReportDto report) {
+    public void denounceRebel(ReportDto report) {
 
         for (Rebel rebel : rebels) {
             if (rebel.getId().equals(report.getRebelId())) {

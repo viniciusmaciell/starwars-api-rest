@@ -66,9 +66,9 @@ public class RebelService {
         return returnedRebelDto;
     }
 
-    public void reportRebel(ReportDto reportDto) {
+    public void denounceRebel(ReportDto reportDto) {
         log.info("Reporting rebel {}", reportDto);
-        repository.reportRebel(reportDto);
+        repository.denounceRebel(reportDto);
     }
 
     public boolean isARebel(UUID id) {

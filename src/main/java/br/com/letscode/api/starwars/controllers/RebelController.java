@@ -26,8 +26,8 @@ public class RebelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveRebel(rebelDto));
     }
 
-    @PostMapping("/report")
-    public ResponseEntity<String> reportRebel(@Valid @RequestBody ReportDto reportDto) {
+    @PostMapping("/denounce")
+    public ResponseEntity<String> denounceRebel(@Valid @RequestBody ReportDto reportDto) {
         if (!service.isARebel(reportDto.getRebelId())) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
                     .body(ReportMessageEnum.NOT_VALIDATED.toString());
@@ -45,7 +45,7 @@ public class RebelController {
                     .body(ReportMessageEnum.ALREADY_REPORTED.toString());
 
         }
-        service.reportRebel(reportDto);
+        service.denounceRebel(reportDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(ReportMessageEnum.REPORT_ACCEPTED.toString());
 
