@@ -17,6 +17,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+//@RequiredArgsConstructor
 public class RebelService {
 
     private final RebelRepository repository;

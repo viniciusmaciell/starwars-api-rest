@@ -27,9 +27,13 @@ public class ReportController {
     }
 
     @GetMapping("/rebels/amount-items")
-    public ResponseEntity<ItemsAmountDto> getAmountOfItemsPerRebel(){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(service.getPercentageOfItemsPerRebel());
+    public ResponseEntity<ItemsAmountDto> getAmountOfItemsPerRebel() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getPercentageOfItemsPerRebel());
+    }
+
+    @GetMapping("/traitors/missed-points")
+    public ResponseEntity<Object> getAllMissedPoints() {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllLostPointsFromTraitors());
     }
 
 }
