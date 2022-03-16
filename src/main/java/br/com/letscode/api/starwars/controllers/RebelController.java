@@ -51,8 +51,8 @@ public class RebelController {
 
     }
 
-    @PostMapping("/propose-deal")
-    public ResponseEntity<ReturnDealDto> proposeADeal(@Valid @RequestBody DealDto exchangeDto) {
+    @PostMapping("/save-deal")
+    public ResponseEntity<ReturnDealDto> saveDeal(@Valid @RequestBody DealDto exchangeDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveDeal(exchangeDto));
     }
 
