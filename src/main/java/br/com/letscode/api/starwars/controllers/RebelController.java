@@ -48,27 +48,11 @@ public class RebelController {
         service.denounceRebel(reportDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(ReportMessageEnum.REPORT_ACCEPTED.toString());
-
-    }
-
-    @PostMapping("/save-deal")
-    public ResponseEntity<ReturnDealDto> saveDeal(@Valid @RequestBody DealDto exchangeDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveDeal(exchangeDto));
-    }
-
-    @PostMapping("/execute-deal")
-    public ResponseEntity<RebelReturnDto> executeDeal(@Valid @RequestBody CounterpartyDto counterpartyDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.executeDeal(counterpartyDto));
     }
 
     @GetMapping("/list")
     public ResponseEntity<List<RebelReturnDto>> getAll() {
         return ResponseEntity.ok(service.getAll());
-    }
-
-    @GetMapping("/open-deals")
-    public ResponseEntity<List<ReturnDealDto>> getAllOpenDeals() {
-        return ResponseEntity.ok(service.getAllOpenDeals());
     }
 
     @PatchMapping("/{id}")
