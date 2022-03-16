@@ -22,7 +22,7 @@ public class RebelController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveRebel(@Valid @RequestBody RebelDto rebelDto) {
+    public ResponseEntity<RebelReturnDto> saveRebel(@Valid @RequestBody RebelDto rebelDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.saveRebel(rebelDto));
     }
 
@@ -53,22 +53,22 @@ public class RebelController {
 
     @PostMapping("/propose-deal")
     public ResponseEntity<ReturnDealDto> proposeADeal(@Valid @RequestBody DealDto exchangeDto) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.addOffer(exchangeDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveDeal(exchangeDto));
     }
 
     @PostMapping("/make-deal")
     public ResponseEntity<RebelReturnDto> makeADeal(@Valid @RequestBody CounterpartyDto counterpartyDto) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(service.makeADeal(counterpartyDto));
+        return ResponseEntity.status(HttpStatus.OK).body(service.executeDeal(counterpartyDto));
     }
 
     @GetMapping("/list")
-    public List<RebelReturnDto> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<RebelReturnDto>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/open-deals")
-    public List<ReturnDealDto> getAllOpenDeals() {
-        return service.getAllOpenDeals();
+    public ResponseEntity<List<ReturnDealDto>> getAllOpenDeals() {
+        return ResponseEntity.ok(service.getAllOpenDeals());
     }
 
     @PatchMapping("/{id}")
