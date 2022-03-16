@@ -1,9 +1,6 @@
 package br.com.letscode.api.starwars.integration;
 
-import br.com.letscode.api.starwars.dtos.CounterpartyDto;
-import br.com.letscode.api.starwars.dtos.DealDto;
-import br.com.letscode.api.starwars.dtos.RebelDto;
-import br.com.letscode.api.starwars.dtos.ReportDto;
+import br.com.letscode.api.starwars.dtos.*;
 import br.com.letscode.api.starwars.models.Deal;
 import br.com.letscode.api.starwars.models.Location;
 import br.com.letscode.api.starwars.models.Rebel;
@@ -27,6 +24,7 @@ import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,7 +39,6 @@ public class StarWarsIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-
     @BeforeEach
     void initializeMocks(){
         Rebel rebel1 = new Rebel();
@@ -51,8 +48,8 @@ public class StarWarsIntegrationTest {
         rebel1.setGender(GenderEnum.FEMALE);
         rebel1.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.WEAPON, ItemEnum.WATER, ItemEnum.WATER)));
         Location location = new Location();
-        location.setLatitude(Integer.valueOf(0));
-        location.setLongitude(Integer.valueOf(0));
+        location.setLatitude(0);
+        location.setLongitude(0);
         location.setBaseName("base");
         rebel1.setLocation(location);
         Mockito.when(repository.findById(rebel1.getId())).thenReturn(rebel1);
@@ -64,8 +61,8 @@ public class StarWarsIntegrationTest {
         rebel2.setGender(GenderEnum.FEMALE);
         rebel2.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.AMMUNITION, ItemEnum.WATER, ItemEnum.WATER)));
         Location rebel2Location = new Location();
-        rebel2Location.setLatitude(Integer.valueOf(0));
-        rebel2Location.setLongitude(Integer.valueOf(0));
+        rebel2Location.setLatitude(0);
+        rebel2Location.setLongitude(0);
         rebel2Location.setBaseName("base2");
         rebel2.setLocation(rebel2Location);
         Mockito.when(repository.findById(rebel2.getId())).thenReturn(rebel2);
@@ -77,8 +74,8 @@ public class StarWarsIntegrationTest {
         rebel3.setGender(GenderEnum.FEMALE);
         rebel3.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.AMMUNITION, ItemEnum.WATER, ItemEnum.WATER)));
         Location rebel3Location = new Location();
-        rebel3Location.setLatitude(Integer.valueOf(0));
-        rebel3Location.setLongitude(Integer.valueOf(0));
+        rebel3Location.setLatitude(0);
+        rebel3Location.setLongitude(0);
         rebel3Location.setBaseName("base3");
         rebel3.setLocation(rebel3Location);
         Mockito.when(repository.findById(rebel3.getId())).thenReturn(rebel3);
@@ -90,8 +87,8 @@ public class StarWarsIntegrationTest {
         rebel4.setGender(GenderEnum.MALE);
         rebel4.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.AMMUNITION, ItemEnum.WATER, ItemEnum.WATER)));
         Location rebel4Location = new Location();
-        rebel4Location.setLatitude(Integer.valueOf(0));
-        rebel4Location.setLongitude(Integer.valueOf(0));
+        rebel4Location.setLatitude(0);
+        rebel4Location.setLongitude(0);
         rebel4Location.setBaseName("base3");
         rebel4.setLocation(rebel3Location);
         Mockito.when(repository.findById(rebel3.getId())).thenReturn(rebel3);
@@ -140,8 +137,8 @@ public class StarWarsIntegrationTest {
         rebelDto.setGender(GenderEnum.FEMALE);
         rebelDto.setInventory(Arrays.asList(ItemEnum.WEAPON, ItemEnum.WATER, ItemEnum.WATER));
         Location location = new Location();
-        location.setLatitude(Integer.valueOf(0));
-        location.setLongitude(Integer.valueOf(0));
+        location.setLatitude(0);
+        location.setLongitude(0);
         location.setBaseName("base");
         rebelDto.setLocation(location);
 
@@ -200,6 +197,34 @@ public class StarWarsIntegrationTest {
                 .andExpect(status().isAccepted());
     }
 
+    @Test
+    void updateRebelLocationTest() throws Exception {
+        LocationDto locationDto = new LocationDto();
+        locationDto.setLatitude(1);
+        locationDto.setLongitude(1);
+        locationDto.setBaseName("new base");
 
+        Rebel updatedRebel1 = new Rebel();
+        updatedRebel1.setId(UUID.fromString("e401dd3d-c8ba-44fa-8b57-9ecf22f72df7"));
+        Location newLocation = new Location();
+        newLocation.setLatitude(1);
+        newLocation.setLongitude(1);
+        newLocation.setBaseName("new base");
+        updatedRebel1.setLocation(newLocation);
+        Mockito.when(repository.updateRebelLocation(UUID.fromString("e401dd3d-c8ba-44fa-8b57-9ecf22f72df7"), newLocation))
+                .thenReturn(updatedRebel1);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String locationDtoAsString = objectMapper.writeValueAsString(locationDto);
+        mockMvc.perform(patch("/rebels/e401dd3d-c8ba-44fa-8b57-9ecf22f72df7")
+                        .contentType(MediaType.APPLICATION_JSON)
+                .content(locationDtoAsString))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.location.latitude").value(1))
+                .andExpect(jsonPath("$.location.longitude").value(1))
+                .andExpect(jsonPath("$.location.baseName").value("new base"))
+                .andExpect(jsonPath("$.id").isNotEmpty());
+    }
 
 }
