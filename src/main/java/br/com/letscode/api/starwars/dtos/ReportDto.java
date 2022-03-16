@@ -1,13 +1,12 @@
 package br.com.letscode.api.starwars.dtos;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Getter
+@Setter
 @RequiredArgsConstructor
 @ToString
 public class ReportDto {
