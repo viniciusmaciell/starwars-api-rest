@@ -8,6 +8,7 @@ import br.com.letscode.api.starwars.repositories.RebelRepository;
 import br.com.letscode.api.starwars.utils.GenderEnum;
 import br.com.letscode.api.starwars.utils.ItemEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -46,7 +47,7 @@ public class StarWarsIntegrationTest {
         rebel1.setName("filo");
         rebel1.setAge(30);
         rebel1.setGender(GenderEnum.FEMALE);
-        rebel1.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.WEAPON, ItemEnum.WATER, ItemEnum.WATER)));
+        rebel1.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.WEAPON, ItemEnum.WATER, ItemEnum.WATER, ItemEnum.FOOD, ItemEnum.AMMUNITION)));
         Location location = new Location();
         location.setLatitude(0);
         location.setLongitude(0);
@@ -59,7 +60,7 @@ public class StarWarsIntegrationTest {
         rebel2.setName("maria");
         rebel2.setAge(30);
         rebel2.setGender(GenderEnum.FEMALE);
-        rebel2.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.AMMUNITION, ItemEnum.WATER, ItemEnum.WATER)));
+        rebel2.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.AMMUNITION, ItemEnum.WATER, ItemEnum.WATER, ItemEnum.FOOD)));
         Location rebel2Location = new Location();
         rebel2Location.setLatitude(0);
         rebel2Location.setLongitude(0);
@@ -72,7 +73,7 @@ public class StarWarsIntegrationTest {
         rebel3.setName("joana");
         rebel3.setAge(30);
         rebel3.setGender(GenderEnum.FEMALE);
-        rebel3.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.AMMUNITION, ItemEnum.WATER, ItemEnum.WATER)));
+        rebel3.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.AMMUNITION, ItemEnum.FOOD, ItemEnum.WATER)));
         Location rebel3Location = new Location();
         rebel3Location.setLatitude(0);
         rebel3Location.setLongitude(0);
@@ -85,7 +86,7 @@ public class StarWarsIntegrationTest {
         rebel4.setName("judas");
         rebel4.setAge(30);
         rebel4.setGender(GenderEnum.MALE);
-        rebel4.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.AMMUNITION, ItemEnum.WATER, ItemEnum.WATER)));
+        rebel4.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.AMMUNITION, ItemEnum.WEAPON, ItemEnum.WEAPON)));
         Location rebel4Location = new Location();
         rebel4Location.setLatitude(0);
         rebel4Location.setLongitude(0);
@@ -227,4 +228,63 @@ public class StarWarsIntegrationTest {
                 .andExpect(jsonPath("$.id").isNotEmpty());
     }
 
+    @Test
+    void getPercentageOfTrustedRebelsTest() throws Exception {
+        Rebel traitor1 = new Rebel();
+        Rebel traitor2 = new Rebel();
+
+        Mockito.when(repository.getAllTraitors()).thenReturn(Arrays.asList(traitor1,traitor2));
+
+        Assertions.assertEquals("The percentage of trusted rebels is " + (4f/6*100),
+                                mockMvc.perform(get("/report/reliable-rebels")
+                                                .contentType(MediaType.APPLICATION_JSON))
+                                        .andDo(print())
+                                        .andExpect(status().isOk())
+                                        .andReturn().getResponse().getContentAsString());
+    }
+
+    @Test
+    void getPercentageOfTraitorsTest() throws Exception {
+        Rebel traitor1 = new Rebel();
+        Rebel traitor2 = new Rebel();
+
+        Mockito.when(repository.getAllTraitors()).thenReturn(Arrays.asList(traitor1,traitor2));
+
+        Assertions.assertEquals("The percentage of traitors is " + (2f/6*100),
+                mockMvc.perform(get("/report/traitors")
+                                .contentType(MediaType.APPLICATION_JSON))
+                        .andDo(print())
+                        .andExpect(status().isOk())
+                        .andReturn().getResponse().getContentAsString());
+    }
+
+    @Test
+    void getAmountOfItemsPerRebelTest() throws Exception {
+        mockMvc.perform(get("/report/rebels/amount-items").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.weapon").value(3f/4))
+                .andExpect(jsonPath("$.water").value(5f/4))
+                .andExpect(jsonPath("$.food").value(3f/4))
+                .andExpect(jsonPath("$.ammunition").value(4f/4));
+    }
+
+    @Test
+    void getAllMissedPointsTest() throws Exception{
+        Rebel traitor1 = new Rebel();
+        traitor1.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.WEAPON, ItemEnum.WATER, ItemEnum.FOOD, ItemEnum.FOOD, ItemEnum.AMMUNITION)));
+        Rebel traitor2 = new Rebel();
+        traitor2.setInventory(new ArrayList<>(Arrays.asList(ItemEnum.WEAPON, ItemEnum.WATER, ItemEnum.AMMUNITION, ItemEnum.AMMUNITION)));
+
+        Mockito.when(repository.getAllTraitors()).thenReturn(Arrays.asList(traitor1,traitor2));
+
+        mockMvc.perform(get("/report/traitors/missed-points").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.weapon").value(-8))
+                .andExpect(jsonPath("$.water").value(-4))
+                .andExpect(jsonPath("$.food").value(-2))
+                .andExpect(jsonPath("$.ammunition").value(-9))
+                .andExpect(jsonPath("$.total_points_lost").value(23));
+    }
 }
