@@ -116,7 +116,7 @@ public class StarWarsIntegrationTest {
     }
     @Test
     void getAllRebelsTest() throws Exception {
-        mockMvc.perform(get("/rebels/list").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/rebels/list").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("length()").value(4));
@@ -124,7 +124,7 @@ public class StarWarsIntegrationTest {
 
     @Test
     void getAllOpenDealsTest() throws Exception {
-        mockMvc.perform(get("/rebels/open-deals").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/rebels/open-deals").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("length()").value(3));
@@ -145,7 +145,7 @@ public class StarWarsIntegrationTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String rebelDtoAsString = objectMapper.writeValueAsString(rebelDto);
-        mockMvc.perform(post("/rebels")
+        mockMvc.perform(post("/v1/rebels")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(rebelDtoAsString))
                 .andDo(print())
@@ -161,7 +161,7 @@ public class StarWarsIntegrationTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String dealDtoAsString = objectMapper.writeValueAsString(dealDto);
-        mockMvc.perform(post("/rebels/propose-deal")
+        mockMvc.perform(post("/v1/rebels/propose-deal")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(dealDtoAsString))
                 .andDo(print())
@@ -176,7 +176,7 @@ public class StarWarsIntegrationTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String counterpartyDtoAsString = objectMapper.writeValueAsString(counterpartyDto);
-        mockMvc.perform(post("/rebels/make-deal")
+        mockMvc.perform(post("/v1/rebels/make-deal")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(counterpartyDtoAsString))
                 .andDo(print())
@@ -191,7 +191,7 @@ public class StarWarsIntegrationTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String reportDtoAsString = objectMapper.writeValueAsString(reportDto);
-        mockMvc.perform(post("/rebels/report")
+        mockMvc.perform(post("/v1/rebels/report")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(reportDtoAsString))
                 .andDo(print())
@@ -217,7 +217,7 @@ public class StarWarsIntegrationTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String locationDtoAsString = objectMapper.writeValueAsString(locationDto);
-        mockMvc.perform(patch("/rebels/e401dd3d-c8ba-44fa-8b57-9ecf22f72df7")
+        mockMvc.perform(patch("/v1/rebels/e401dd3d-c8ba-44fa-8b57-9ecf22f72df7")
                         .contentType(MediaType.APPLICATION_JSON)
                 .content(locationDtoAsString))
                 .andDo(print())
@@ -236,7 +236,7 @@ public class StarWarsIntegrationTest {
         Mockito.when(repository.getAllTraitors()).thenReturn(Arrays.asList(traitor1,traitor2));
 
         Assertions.assertEquals("The percentage of trusted rebels is " + (4f/6*100),
-                                mockMvc.perform(get("/report/reliable-rebels")
+                                mockMvc.perform(get("/v1/report/reliable-rebels")
                                                 .contentType(MediaType.APPLICATION_JSON))
                                         .andDo(print())
                                         .andExpect(status().isOk())
@@ -251,7 +251,7 @@ public class StarWarsIntegrationTest {
         Mockito.when(repository.getAllTraitors()).thenReturn(Arrays.asList(traitor1,traitor2));
 
         Assertions.assertEquals("The percentage of traitors is " + (2f/6*100),
-                mockMvc.perform(get("/report/traitors")
+                mockMvc.perform(get("/v1/report/traitors")
                                 .contentType(MediaType.APPLICATION_JSON))
                         .andDo(print())
                         .andExpect(status().isOk())
@@ -260,7 +260,7 @@ public class StarWarsIntegrationTest {
 
     @Test
     void getAmountOfItemsPerRebelTest() throws Exception {
-        mockMvc.perform(get("/report/rebels/amount-items").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/report/rebels/amount-items").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.weapon").value(3f/4))
@@ -278,7 +278,7 @@ public class StarWarsIntegrationTest {
 
         Mockito.when(repository.getAllTraitors()).thenReturn(Arrays.asList(traitor1,traitor2));
 
-        mockMvc.perform(get("/report/traitors/missed-points").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/report/traitors/missed-points").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.weapon").value(-8))

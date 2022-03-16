@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/rebels")
+@RequestMapping("/v1/rebels")
 public class RebelController {
 
     private final RebelService service;
