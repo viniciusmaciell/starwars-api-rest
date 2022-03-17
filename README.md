@@ -4,7 +4,7 @@ API que permite o compartilhamento de recursos entre os membros da resistência 
 
 ## Funcionalidades
 
-> ### Gerenciando rebeldes
+### Gerenciando rebeldes
 
 [POST] `http://localhost:8080/v1/rebels` Adiciona um novo rebelde
 
@@ -12,15 +12,15 @@ API que permite o compartilhamento de recursos entre os membros da resistência 
 
 ```
 {
-"name":String,
-"age":Integer,
-"gender":String,
-"location": {
-    "latitude":Integer,
-    "longitude" : Integer,
-    "baseName": String
-	},
-"inventory":[String]
+	"name":String,
+	"age":Integer,
+	"gender":String,
+	"location": {
+	    "latitude":Integer,
+	    "longitude" : Integer,
+	    "baseName": String
+		},
+	"inventory":[String]
 }
 ```
 
@@ -65,10 +65,11 @@ Deve ser passado no corpo da requisição o seguinte formato:
 
 ```
 {
-"rebelId" : uuid,
-"traitorId" :uuid
+	"rebelId" : uuid,
+	"traitorId" :uuid
 }
 ```
+> Caso o rebelde seja denunciado por 3 vezez, ele passa a ser um traidor.
 
 [PATCH] ` http://localhost:8080/v1/rebels/{id}` Atualiza a localização de um rebelde
 
@@ -84,7 +85,7 @@ O id deve ser passado na URL, o corpo deve conter o seguinte formato:
 
 Retorna um rebelde com sua localização atualizada.
 
-> ### Gerenciamento de recursos
+### Gerenciamento de recursos
 
 Para realizar as trocas entre os rebeldes, deve ser respeitada uma pontuação de acordo com cada item:
 
@@ -103,7 +104,7 @@ Deve ser passado pelo corpo o seguinte formato:
 {
 	"partyId": uuid,
 	"offer": [itens],
-  "demand":[itens]
+	"demand":[itens]
 }
 ```
 
@@ -118,12 +119,12 @@ Deve ser passado no corpo da requisição o seguinte formato:
 }
 ```
 
-Caso os itens ofertados satisfaçam os itens da demanda, a API retorna o rebelde que fez o acordo com os seu itens do inventário atualizados.
+Caso os itens ofertados satisfaçam os itens da demanda(quantidade de pontos), a API retorna o rebelde que fez o acordo com os seus itens do inventário atualizados.
 
 [GET] `http://localhost:8080/v1/deals/open-deals`
 Retorna a lista de ofertas disponíveis.
 
-> ### Relatórios
+ ### Relatórios
 
 [GET] `http://localhost:8080/v1/reports/reliable-rebels` Retorna a porcentagem de rebeldes confiáveis.
 
