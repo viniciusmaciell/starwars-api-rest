@@ -1,4 +1,4 @@
-package br.com.letscode.api.starwars.enums;
+package br.com.letscode.api.starwars.utils;
 
 public enum GenderEnum {
     MALE("Male"),
